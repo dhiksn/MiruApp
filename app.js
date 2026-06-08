@@ -8,12 +8,25 @@ const logger    = require('./server/utils/logger');
 const app  = express();
 const PORT = process.env.PORT || 3000;
 // Determine the correct public directory path for both local and Netlify Functions
-let baseDir = __dirname;
-if (process.env.NETLIFY === 'true' || process.env.LAMBDA_TASK_ROOT) {
-  // In Netlify Functions, go up to the project root
-  baseDir = path.join(__dirname, '../..');
-}
-const PUB  = path.join(baseDir, 'public');
+console.log('Current __dirname:', __dirname);
+console.log('Current process.cwd():', process.cwd());
+console.log('NETLIFY env var:', process.env.NETLIFY);
+console.log('LAMBDA_TASK_ROOT env var:', process.env.LAMBDA_TASK_ROOT);
+
+// Find project root by looking for package.json
+let findProjectRoot = (dir) => {
+  if (require('fs').existsSync(path.join(dir, 'package.json'))) {
+    return dir;
+  }
+  const parentDir = path.dirname(dir);
+  if (parentDir === dir) return dir; // Reached root
+  return findProjectRoot(parentDir);
+};
+
+const projectRoot = findProjectRoot(__dirname);
+const PUB = path.resolve(projectRoot, 'public');
+console.log('Found project root:', projectRoot);
+console.log('Final PUB path:', PUB);
 
 const send = (file) => (req, res) => res.sendFile(path.join(PUB, file));
 
