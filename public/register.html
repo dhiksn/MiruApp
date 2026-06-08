@@ -1,243 +1,470 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MiruApp — Daftar</title>
-  <link rel="stylesheet" href="/css/style.css" />
-  <link rel="icon" type="image/x-icon" href="/icon/favicon.ico" />
-  <style>
-    .auth-wrap {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem 1rem;
-    }
-    .auth-box {
-      width: 100%;
-      max-width: 400px;
-    }
-    .auth-brand {
-      font-size: 2rem;
-      font-weight: 900;
-      color: #fff;
-      letter-spacing: .5px;
-      margin-bottom: .35rem;
-    }
-    .auth-sub {
-      color: var(--text-muted);
-      font-size: .9rem;
-      margin-bottom: 2rem;
-    }
-    .auth-error {
-      background: rgba(230,57,70,.1);
-      border: 1px solid rgba(230,57,70,.35);
-      color: #ff8080;
-      border-radius: 8px;
-      padding: .75rem 1rem;
-      font-size: .85rem;
-      margin-bottom: 1.25rem;
-      display: none;
-    }
-    .auth-error.show { display: block; }
-    .field-label {
-      display: block;
-      font-size: .7rem;
-      font-weight: 700;
-      letter-spacing: .5px;
-      color: var(--text-muted);
-      margin-bottom: .35rem;
-      text-transform: uppercase;
-    }
-    .field-hint {
-      font-size: .72rem;
-      color: rgba(255,255,255,.3);
-      margin-top: .25rem;
-      margin-bottom: .75rem;
-    }
-    .field-wrap {
-      position: relative;
-      margin-bottom: .25rem;
-    }
-    .field-wrap input {
-      width: 100%;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 8px;
-      padding: .75rem 1rem;
-      color: #fff;
-      font-size: .9rem;
-      outline: none;
-      transition: border-color .2s;
-    }
-    .field-wrap input:focus { border-color: rgba(255,255,255,.35); }
-    .field-wrap input::placeholder { color: rgba(255,255,255,.25); }
-    .toggle-pass {
-      position: absolute;
-      right: .75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: rgba(255,255,255,.35);
-      font-size: 1rem;
-      padding: 0;
-      line-height: 1;
-    }
-    .toggle-pass:hover { color: rgba(255,255,255,.7); }
-    .btn-submit {
-      width: 100%;
-      height: 48px;
-      background: #fff;
-      color: #000;
-      border: none;
-      border-radius: 10px;
-      font-size: .95rem;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: .75rem;
-      transition: opacity .2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: .5rem;
-    }
-    .btn-submit:hover { opacity: .9; }
-    .btn-submit:disabled { opacity: .5; cursor: not-allowed; }
-    .auth-footer {
-      text-align: center;
-      margin-top: 1.25rem;
-      font-size: .85rem;
-      color: var(--text-muted);
-    }
-    .auth-footer a { color: #fff; font-weight: 700; }
-    .spinner-sm {
-      width: 18px; height: 18px;
-      border: 2px solid rgba(0,0,0,.3);
-      border-top-color: #000;
-      border-radius: 50%;
-      animation: spin .6s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MIRUAPP — Daftar</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="icon" type="image/x-icon" href="/icon/favicon.ico" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Archivo:wght@400;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Archivo', sans-serif;
+            background: #f0ede6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 2rem 1rem;
+        }
+
+        /* Logo */
+        .logo {
+            background: #FFE500;
+            border: 3px solid #1a1a1a;
+            box-shadow: 4px 4px 0 #1a1a1a;
+            padding: 8px 22px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        /* Card */
+        .auth-card {
+            background: #fff;
+            border: 3px solid #1a1a1a;
+            box-shadow: 7px 7px 0 #1a1a1a;
+            max-width: 420px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* Card Top Bar */
+        .card-top-bar {
+            background: #FFE500;
+            border-bottom: 3px solid #1a1a1a;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-top-bar i {
+            font-size: 16px;
+            color: #1a1a1a;
+        }
+
+        .card-top-bar span {
+            font-family: 'DM Mono', monospace;
+            font-weight: 500;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #1a1a1a;
+        }
+
+        /* Card Body */
+        .card-body {
+            padding: 1.75rem 1.5rem 1.5rem;
+        }
+
+        /* Title */
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        /* Subtitle */
+        .card-subtitle {
+            font-family: 'DM Mono', monospace;
+            font-weight: 500;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            color: #1a1a1a;
+            opacity: 0.5;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Form Fields */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 700;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #1a1a1a;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .form-input-wrap {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2.5px solid #1a1a1a;
+            background: #fff;
+            font-family: 'DM Mono', monospace;
+            font-weight: 500;
+            font-size: 13px;
+            color: #1a1a1a;
+            outline: none;
+        }
+
+        .form-input::placeholder {
+            color: rgba(26, 26, 26, 0.3);
+        }
+
+        .form-input:focus {
+            background: #FFFBE6;
+            box-shadow: 3px 3px 0 #1a1a1a;
+        }
+
+        .form-input.error {
+            border-color: #FF3B00;
+            box-shadow: 3px 3px 0 #FF3B00;
+        }
+
+        .form-hint {
+            font-family: 'DM Mono', monospace;
+            font-weight: 500;
+            font-size: 10px;
+            color: #1a1a1a;
+            opacity: 0.45;
+            margin-top: 4px;
+        }
+
+        /* Password Toggle */
+        .toggle-password-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            opacity: 0.4;
+            transition: opacity 0.2s ease;
+        }
+
+        .toggle-password-btn:hover {
+            opacity: 1;
+        }
+
+        .toggle-password-btn i {
+            font-size: 16px;
+            color: #1a1a1a;
+        }
+
+        /* Two Column Grid */
+        .two-column-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* Divider */
+        .form-divider {
+            border-top: 2.5px solid #1a1a1a;
+            margin: 1.25rem 0;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: #1a1a1a;
+            border: 2.5px solid #1a1a1a;
+            box-shadow: 4px 4px 0 #FFE500;
+            color: #FFE500;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 #FFE500;
+        }
+
+        .submit-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #FFE500;
+        }
+
+        .submit-btn.success {
+            background: #00A86B;
+            border-color: #00A86B;
+            box-shadow: 4px 4px 0 #1a1a1a;
+            color: #fff;
+        }
+
+        /* Footer Text */
+        .card-footer-text {
+            text-align: center;
+            font-family: 'Archivo', sans-serif;
+            font-size: 12px;
+            color: #1a1a1a;
+            opacity: 0.55;
+        }
+
+        .card-footer-text a {
+            background: #FFE500;
+            padding: 0 4px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-decoration: none;
+            transition: background 0.12s ease, color 0.12s ease;
+        }
+
+        .card-footer-text a:hover {
+            background: #FF3B00;
+            color: #fff;
+        }
+
+        /* Back Link */
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-family: 'DM Mono', monospace;
+            font-weight: 500;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #1a1a1a;
+            opacity: 0.4;
+            text-decoration: none;
+            transition: opacity 0.12s ease;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
-  <div class="auth-wrap">
-    <div class="auth-box">
-      <div class="auth-brand">MiruApp</div>
-      <div class="auth-sub">Buat akun baru</div>
+    <!-- Logo -->
+    <a href="/" class="logo">MIRUAPP</a>
 
-      <div class="auth-error" id="authError"></div>
+    <!-- Auth Card -->
+    <div class="auth-card">
+        <div class="card-top-bar">
+            <i class="ti ti-user-plus"></i>
+            <span>BUAT AKUN BARU</span>
+        </div>
 
-      <label class="field-label" for="username">Username</label>
-      <div class="field-wrap">
-        <input type="text" id="username" placeholder="username" autocomplete="username" />
-      </div>
-      <div class="field-hint">Hanya huruf, angka, dan underscore</div>
+        <div class="card-body">
+            <h1 class="card-title">DAFTAR</h1>
+            <p class="card-subtitle">Gratis · Selamanya · Tanpa iklan</p>
 
-      <label class="field-label" for="email">Email</label>
-      <div class="field-wrap" style="margin-bottom:1rem">
-        <input type="email" id="email" placeholder="email@contoh.com" autocomplete="email" />
-      </div>
+            <form id="registerForm">
+                <!-- Username -->
+                <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" class="form-input" placeholder="username_kamu" autocomplete="username" />
+                    <div class="form-hint">Huruf, angka, underscore — min. 3 karakter</div>
+                </div>
 
-      <label class="field-label" for="password">Password</label>
-      <div class="field-wrap">
-        <input type="password" id="password" placeholder="••••••••" autocomplete="new-password" />
-        <button class="toggle-pass" onclick="togglePass('password', this)" tabindex="-1">👁</button>
-      </div>
-      <div class="field-hint">Minimal 6 karakter</div>
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-input" placeholder="nama@email.com" autocomplete="email" />
+                </div>
 
-      <label class="field-label" for="confirm">Konfirmasi Password</label>
-      <div class="field-wrap" style="margin-bottom:1rem">
-        <input type="password" id="confirm" placeholder="••••••••" autocomplete="new-password" />
-        <button class="toggle-pass" onclick="togglePass('confirm', this)" tabindex="-1">👁</button>
-      </div>
+                <!-- Two Column for Passwords -->
+                <div class="two-column-grid">
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="form-input-wrap">
+                            <input type="password" id="password" class="form-input" placeholder="Min. 6 karakter" autocomplete="new-password" />
+                            <button type="button" class="toggle-password-btn" onclick="togglePassword('password', this)">
+                                <i class="ti ti-eye"></i>
+                            </button>
+                        </div>
+                    </div>
 
-      <button class="btn-submit" id="btnRegister" onclick="doRegister()">Daftar</button>
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Konfirmasi Password</label>
+                        <div class="form-input-wrap">
+                            <input type="password" id="confirmPassword" class="form-input" placeholder="Ulangi password" autocomplete="new-password" />
+                            <button type="button" class="toggle-password-btn" onclick="togglePassword('confirmPassword', this)">
+                                <i class="ti ti-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-      <div class="auth-footer">
-        Sudah punya akun? <a href="/login">Masuk</a>
-      </div>
+                <div class="form-divider"></div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <i class="ti ti-user-check"></i>
+                    BUAT AKUN
+                </button>
+
+                <!-- Footer -->
+                <p class="card-footer-text">
+                    Sudah punya akun? <a href="/login">Masuk</a>
+                </p>
+            </form>
+        </div>
     </div>
-  </div>
 
-  <script>
-    if (localStorage.getItem('auth_token')) {
-      window.location.href = '/';
-    }
+    <!-- Back Link -->
+    <a href="/" class="back-link">
+        <i class="ti ti-arrow-left"></i>
+        Kembali ke Beranda
+    </a>
 
-    function togglePass(id, btn) {
-      const inp = document.getElementById(id);
-      if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
-      else { inp.type = 'password'; btn.textContent = '👁'; }
-    }
-
-    function showError(msg) {
-      const el = document.getElementById('authError');
-      el.textContent = msg;
-      el.classList.add('show');
-    }
-
-    function setLoading(on) {
-      const btn = document.getElementById('btnRegister');
-      btn.disabled = on;
-      btn.innerHTML = on ? '<div class="spinner-sm"></div>' : 'Daftar';
-    }
-
-    async function doRegister() {
-      const username = document.getElementById('username').value.trim();
-      const email    = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const confirm  = document.getElementById('confirm').value;
-
-      document.getElementById('authError').classList.remove('show');
-
-      if (!username || !email || !password || !confirm) {
-        showError('Semua field wajib diisi'); return;
-      }
-      if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-        showError('Username hanya huruf, angka, dan underscore'); return;
-      }
-      if (username.length < 3) {
-        showError('Username minimal 3 karakter'); return;
-      }
-      if (!email.includes('@')) {
-        showError('Email tidak valid'); return;
-      }
-      if (password.length < 6) {
-        showError('Password minimal 6 karakter'); return;
-      }
-      if (password !== confirm) {
-        showError('Password tidak cocok'); return;
-      }
-
-      setLoading(true);
-      try {
-        const res  = await fetch('/api/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, email, password }),
-        });
-        const data = await res.json();
-        if (data.success) {
-          localStorage.setItem('auth_token', data.token);
-          localStorage.setItem('auth_user', JSON.stringify(data.user));
-          window.location.href = '/';
-        } else {
-          showError(data.message || 'Registrasi gagal');
+    <script>
+        // Redirect if already logged in
+        if (localStorage.getItem('auth_token')) {
+            window.location.href = '/';
         }
-      } catch {
-        showError('Gagal terhubung ke server');
-      } finally {
-        setLoading(false);
-      }
-    }
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Enter') doRegister();
-    });
-  </script>
+        // Toggle password visibility
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('ti-eye');
+                icon.classList.add('ti-eye-off');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('ti-eye-off');
+                icon.classList.add('ti-eye');
+            }
+        }
+
+        // Clear errors from inputs
+        function clearErrors() {
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.classList.remove('error');
+            });
+        }
+
+        // Add error class to input
+        function setError(inputId) {
+            document.getElementById(inputId).classList.add('error');
+        }
+
+        // Handle form submit
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearErrors();
+
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const submitBtn = document.getElementById('submitBtn');
+
+            let hasError = false;
+
+            // Validate fields
+            if (!username) {
+                setError('username');
+                hasError = true;
+            }
+            if (!email) {
+                setError('email');
+                hasError = true;
+            }
+            if (!password) {
+                setError('password');
+                hasError = true;
+            }
+            if (!confirmPassword) {
+                setError('confirmPassword');
+                hasError = true;
+            }
+            if (password && password.length < 6) {
+                setError('password');
+                hasError = true;
+            }
+            if (password && confirmPassword && password !== confirmPassword) {
+                setError('confirmPassword');
+                hasError = true;
+            }
+
+            if (hasError) {
+                return;
+            }
+
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="ti ti-loader-2" style="animation: spin 1s linear infinite;"></i> LOADING...';
+
+            try {
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password }),
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    submitBtn.classList.add('success');
+                    submitBtn.innerHTML = '<i class="ti ti-check"></i> BERHASIL';
+                    localStorage.setItem('auth_token', data.token);
+                    localStorage.setItem('auth_user', JSON.stringify(data.user));
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                } else {
+                    alert(data.message || 'Registrasi gagal');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="ti ti-user-check"></i> BUAT AKUN';
+                }
+            } catch (err) {
+                alert('Gagal terhubung ke server');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="ti ti-user-check"></i> BUAT AKUN';
+            }
+        });
+    </script>
 </body>
 </html>

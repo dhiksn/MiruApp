@@ -1,56 +1,85 @@
-﻿# GoAnime Wrapper
+﻿# MiruApp API
 
-REST API wrapper built with Node.js (Express) that proxies Samehadaku anime endpoints.
+Proyek ini adalah backend Node.js/Express untuk aplikasi MiruApp. API ini bertindak sebagai wrapper untuk data anime Samehadaku dan juga menyajikan UI statis dari folder `public/`.
 
-## Tech Stack
+## Ringkasan
 
-- **Runtime**: Node.js
-- **Framework**: Express.js
-- **HTTP Client**: Axios
+- Backend: Node.js + Express
+- Static web UI: `public/`
+- API proxy: mengambil data dari sumber anime eksternal dan menyajikannya dalam format JSON yang konsisten
 
-## Setup
+## Fitur
+
+- API anime lengkap (home, recent, search, ongoing, completed, popular, movies, list, schedule, genres, batch, detail)
+- Logging request sederhana
+- Error handling API
+
+## Persyaratan
+
+- Node.js 18+ atau versi yang kompatibel
+- npm
+
+## Instalasi
+
+1. Clone repositori
+2. Masuk ke direktori proyek:
+
+```bash
+cd c:\path\path\miruapp
+```
+
+3. Instal dependensi:
 
 ```bash
 npm install
-node app.js
 ```
 
-Server runs on `http://localhost:3000` by default.
+4. Buat file `.env` di root proyek:
 
-## Environment Variables
-
-Create a `.env` file:
-
-```
+```env
 PORT=3000
 BASE_URL=https://www.sankavollerei.com
 REQUEST_TIMEOUT=10000
 ```
 
-## Endpoints
+5. Jalankan server:
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/home` | Home page data |
-| GET | `/api/recent?page=` | Recently aired episodes |
-| GET | `/api/search?q=&page=` | Search anime by title |
-| GET | `/api/ongoing?page=` | Ongoing anime list |
-| GET | `/api/completed?page=&order=` | Completed anime list |
-| GET | `/api/popular?page=` | Popular anime list |
-| GET | `/api/movies?page=` | Anime movies list |
-| GET | `/api/list` | Full anime list |
-| GET | `/api/schedule` | Airing schedule |
-| GET | `/api/genres` | All genres |
-| GET | `/api/genre/:genre?page=` | Anime by genre |
-| GET | `/api/batch?page=` | Batch download list |
-| GET | `/api/anime/:slug` | Anime detail |
-| GET | `/api/episode/:slug` | Episode detail |
-| GET | `/api/batch/:slug` | Batch detail |
-| GET | `/api/server/:id` | Streaming server data |
+```bash
+npm run dev
+```
 
-## Response Format
+Server akan berjalan di `http://localhost:3000` secara default.
 
-All responses follow this structure:
+## Konfigurasi Environment
+
+- `PORT`: port untuk menjalankan server
+- `BASE_URL`: base URL sumber data anime eksternal
+- `REQUEST_TIMEOUT`: timeout untuk panggilan HTTP
+
+## API Utama
+
+| Method | Endpoint | Deskripsi |
+|--------|----------|-----------|
+| GET | `/api/home` | Data halaman utama |
+| GET | `/api/recent?page=` | Episode terbaru |
+| GET | `/api/search?q=&page=` | Cari anime berdasarkan judul |
+| GET | `/api/ongoing?page=` | Daftar anime ongoing |
+| GET | `/api/completed?page=&order=` | Daftar anime completed |
+| GET | `/api/popular?page=` | Daftar anime populer |
+| GET | `/api/movies?page=` | Daftar anime movie |
+| GET | `/api/list` | Daftar lengkap anime |
+| GET | `/api/schedule` | Jadwal tayang anime |
+| GET | `/api/genres` | Semua genre |
+| GET | `/api/genre/:genre?page=` | Anime berdasarkan genre |
+| GET | `/api/batch?page=` | Daftar batch download |
+| GET | `/api/anime/:slug` | Detail anime |
+| GET | `/api/episode/:slug` | Detail episode |
+| GET | `/api/batch/:slug` | Detail batch |
+| GET | `/api/server/:id` | Data server streaming |
+
+## Format Response
+
+Semua response API mengikuti struktur berikut:
 
 ```json
 {
@@ -60,7 +89,7 @@ All responses follow this structure:
 }
 ```
 
-Error responses:
+Untuk error:
 
 ```json
 {
@@ -70,45 +99,19 @@ Error responses:
 }
 ```
 
-## Example Requests
-
-```bash
-# Home
-curl http://localhost:3000/api/home
-
-# Recent - page 2
-curl http://localhost:3000/api/recent?page=2
-
-# Search
-curl "http://localhost:3000/api/search?q=naruto&page=1"
-
-# Anime detail
-curl http://localhost:3000/api/anime/one-piece
-
-# Episode detail
-curl http://localhost:3000/api/episode/one-piece-episode-1000
-
-# Genre
-curl "http://localhost:3000/api/genre/action?page=1"
-
-# Completed with order
-curl "http://localhost:3000/api/completed?page=1&order=latest"
-```
-
-## Project Structure
+## Struktur Proyek
 
 ```
-├── app.js                          # Entry point
-├── .env                            # Environment config
+├── app.js
 ├── package.json
-└── server/
-    ├── routes/
-    │   └── apiRoutes.js            # Route definitions
-    ├── controllers/
-    │   └── apiController.js        # Request handlers & validation
-    ├── services/
-    │   └── apiService.js           # Axios HTTP calls
-    └── utils/
-        └── logger.js               # Simple console logger
+├── public/                      # UI web statis
+├── server/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── routes/
+│   ├── services/
+│   └── utils/
+└── flutter/
 ```
+
 

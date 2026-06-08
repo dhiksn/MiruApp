@@ -10,300 +10,242 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png" />
   <link rel="apple-touch-icon" href="/icon/apple-touch-icon.png" />
   <link rel="manifest" href="/icon/site.webmanifest" />
-  <!-- Font: Outfit -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Icons: Lucid -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --font-main: 'Outfit', sans-serif;
-    }
-    body {
-      font-family: var(--font-main);
-    }
-
-    /*  HERO  */
-    .batch-hero {
-      position: relative;
-      overflow: hidden;
-      padding: 4rem 0;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-secondary);
-    }
-    .hero-backdrop {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-size: cover;
-      background-position: center;
-      filter: blur(60px) brightness(0.25);
-      z-index: 0;
-      transform: scale(1.1);
-    }
-    .hero-inner {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      gap: 3rem;
-      align-items: flex-start;
-    }
-
-    /* Poster */
-    .poster-col {
-      flex-shrink: 0;
-      width: 240px;
-    }
-    .poster-wrapper {
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-      aspect-ratio: 2/3;
-    }
-    .poster-wrapper img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-    }
-
-    /* Info */
-    .info-col {
-      flex: 1;
-      min-width: 0;
-    }
-    .batch-label {
-      background: var(--accent);
-      color: #fff;
-      padding: 4px 12px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      display: inline-block;
-      margin-bottom: 1rem;
-    }
-    .hero-title {
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      line-height: 1.2;
-      color: #fff;
-    }
-    .hero-meta-row {
-      display: flex;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-      color: rgba(255,255,255,0.7);
-      font-size: 0.95rem;
-    }
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .meta-item i {
-      color: var(--accent);
-      width: 18px; height: 18px;
-    }
-
-    .synopsis-box {
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 1.5rem;
-      border-radius: 16px;
-      margin-top: 1.5rem;
-    }
-    .synopsis-title {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .synopsis-text {
-      font-size: 0.95rem;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.8);
-    }
-
-    /*  DOWNLOAD SECTION  */
     .download-section {
-      padding: 3rem 0;
+      margin-top: 0;
     }
-    .dl-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin-bottom: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .dl-grid {
+
+    .download-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-6);
+      width: 100%;
     }
-    .dl-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 1.5rem;
-      transition: all 0.3s ease;
+
+    .download-card {
+      background: var(--color-white);
+      border: 3px solid var(--color-border);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
     }
-    .dl-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-5px);
-    }
-    .dl-card-header {
-      font-weight: 800;
-      font-size: 1.1rem;
-      margin-bottom: 1.25rem;
-      color: var(--accent2);
+
+    .download-card-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 16px;
+      color: var(--color-primary);
+      background: var(--color-black);
+      padding: .75rem 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: var(--space-3);
+      border-bottom: 3px solid var(--color-border);
     }
-    .dl-quality-group {
-      margin-top: 1.25rem;
+
+    .download-card-title svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      stroke: var(--color-primary);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
+
+    .download-quality-item {
+      padding: .875rem 1rem;
+      border-bottom: 2px solid #eee;
+    }
+
+    .download-quality-item:last-child {
+      border-bottom: none;
+    }
+
     .quality-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-muted);
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 900;
+      color: var(--color-black);
+      margin-bottom: var(--space-3);
+      display: inline-block;
       text-transform: uppercase;
-      margin-bottom: 0.5rem;
-      display: block;
+      letter-spacing: 0.06em;
+      background: var(--color-primary);
+      padding: var(--space-1) var(--space-3);
+      border: 2px solid var(--color-border);
     }
-    .dl-links {
+
+    .download-btn-group {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.6rem;
-    }
-    .dl-link-btn {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-    .dl-link-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(230, 57, 70, 0.05);
-    }
-    .dl-link-btn.dead {
-      text-decoration: line-through;
-      opacity: 0.4;
-      pointer-events: none;
-      cursor: not-allowed;
+      gap: var(--space-2);
     }
 
-    /*  CONTENT GRID  */
-    .content-grid {
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 2rem;
-      margin-top: 2.5rem;
-    }
-    .detail-section {
-      background: var(--bg-secondary);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-    .detail-section-title {
-      font-size: 1.1rem;
+    .dl-btn {
+      background: var(--color-white);
+      border: 2px solid var(--color-border);
+      box-shadow: 2px 2px 0 var(--color-border);
+      padding: var(--space-2) var(--space-3);
+      font-family: var(--font-mono);
+      font-size: 10px;
       font-weight: 700;
-      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: transform var(--duration-fast) var(--ease-snap),
+                  box-shadow var(--duration-fast) var(--ease-snap),
+                  background var(--duration-fast) var(--ease-snap);
+      color: var(--color-black);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .dl-btn:hover {
+      background: var(--color-primary);
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--color-border);
+    }
+
+    .dl-btn.dead {
+      text-decoration: line-through;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .dl-section-title {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 900;
+      text-transform: uppercase;
+      margin-bottom: var(--space-6);
+      color: var(--color-black);
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      color: #fff;
+      gap: var(--space-3);
     }
-    .detail-section-title i { color: var(--accent); }
 
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.25rem;
+    .dl-section-title svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--color-black);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
-    .info-item { display: flex; flex-direction: column; gap: 0.25rem; }
-    .info-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
-    .info-value { font-size: 0.9rem; color: var(--text-primary); font-weight: 500; }
 
-    @media (max-width: 1000px) {
-      .content-grid { grid-template-columns: 1fr; }
-      .hero-inner { flex-direction: column; align-items: center; text-align: center; }
-      .hero-meta-row { justify-content: center; flex-wrap: wrap; gap: 1rem; }
-      .poster-col { width: 180px; }
-      .hero-title { font-size: 1.8rem; }
-    }
-    @media (max-width: 640px) {
-      .info-grid { grid-template-columns: 1fr; }
+    @media (max-width: 768px) {
+      .download-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
 <nav class="navbar">
-  <div class="container" style="display: flex; width: 100%; align-items: center; justify-content: space-between; padding: 0;">
-    <a class="navbar-brand" href="/"> <span>MiruApp</span></a>
-    <ul class="navbar-nav">
-      <li><a href="/">Home</a></li>
-      <li><a href="/ongoing">Ongoing</a></li>
-      <li><a href="/movies">Movies</a></li>
-      <li><a href="/schedule">Jadwal</a></li>
-      <li><a href="/batch" class="active">Batch</a></li>
-    </ul>
-    <div class="navbar-search">
-      <input type="text" id="navSearch" placeholder="Cari anime..." />
-      <button onclick="doNavSearch()"><i data-lucide="search" style="width:16px;height:16px;"></i></button>
-    </div>
+  <a class="navbar-brand" href="/">MIRUAPP</a>
+  <ul class="navbar-nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/ongoing">Ongoing</a></li>
+    <li><a href="/movies">Movies</a></li>
+    <li><a href="/schedule">Jadwal</a></li>
+    <li><a href="/batch" class="active">Batch</a></li>
+    <li><a href="/daftar-anime">Daftar Anime</a></li>
+  </ul>
+  <div class="navbar-right">
+    <button class="navbar-search-icon" id="searchBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+    <div id="navAuth"></div>
   </div>
 </nav>
 
-<div id="batchHero" class="batch-hero">
+<div class="search-modal" id="searchModal">
+  <div class="search-modal-overlay" id="searchOverlay"></div>
+  <div class="search-modal-content">
+    <button class="search-modal-close" id="searchCloseBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="search-modal-input-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="modalSearch" placeholder="Cari anime...">
+      <button class="search-modal-submit" id="modalSearchSubmit">Cari</button>
+    </div>
+  </div>
+</div>
+
+<div id="batchHero" class="detail-hero">
   <div class="container">
     <div class="loading-overlay"><div class="spinner"></div><span>Menyiapkan detail batch...</span></div>
   </div>
 </div>
 
-<div class="container">
-  <div class="content-grid" id="mainContent" style="display:none">
-    <!-- LEFT: DOWNLOAD LINKS -->
+<div class="container detail-main" id="mainContent" style="display:none; padding-bottom: var(--space-12);">
+  <div class="layout-with-sidebar">
     <div class="col-left">
-      <section class="download-section" id="dlSection" style="display:none; padding-top: 0;">
-        <h2 class="dl-title"><i data-lucide="package"></i> Link Download Batch</h2>
-        <div id="dlLinks" class="dl-grid"></div>
+      <section class="download-section" id="dlSection" style="display:none">
+        <h2 class="dl-section-title" id="dlSectionTitle"></h2>
+        <div id="dlLinks" class="download-grid"></div>
       </section>
     </div>
 
-    <!-- RIGHT: ANIME INFO -->
     <div class="col-right">
-      <div class="detail-section" style="position: sticky; top: 80px;">
-        <div class="detail-section-title"><i data-lucide="info"></i> Informasi Anime</div>
-        <div id="infoGrid" class="info-grid"></div>
+      <div class="info-panel" id="detailSection">
+        <div class="info-panel-header">Informasi Anime</div>
+        <div id="infoGrid"></div>
+        <div class="info-panel-score" id="infoScore" style="display:none"></div>
       </div>
     </div>
   </div>
 </div>
 
 <footer>
-  <div class="container">
-    <p>MiruApp Wrapper & UI &copy; 2024</p>
-  </div>
+  <p>MiruApp Wrapper & UI &copy; 2024</p>
 </footer>
 
 <script src="/js/helpers.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/search-modal.js"></script>
 <script>
-  initNavSearch();
+  renderAuthNav();
   const params = new URLSearchParams(location.search);
   const slug   = params.get('slug') || '';
+
+  const DL_ICON = `<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
+  const BATCH_ICON = `<svg viewBox="0 0 24 24"><path d="M3 7v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-6l-2-2H5a2 2 0 0 0-2 2z"/></svg>`;
+
+  function toggleSynopsis() {
+    const inner  = document.getElementById('synopsisInner');
+    const toggle = document.getElementById('synopsisToggle');
+    const label  = document.getElementById('synopsisLabel');
+    const expanded = inner.classList.toggle('expanded');
+    toggle.classList.toggle('expanded', expanded);
+    label.textContent = expanded ? 'Sembunyikan' : 'Baca Selengkapnya';
+  }
+
+  function initSynopsisToggle() {
+    const inner  = document.getElementById('synopsisInner');
+    const toggle = document.getElementById('synopsisToggle');
+    if (!inner || !toggle) return;
+
+    if (inner.scrollHeight <= inner.clientHeight + 1) {
+      inner.classList.add('expanded');
+      toggle.style.display = 'none';
+    }
+  }
 
   async function loadBatch() {
     if (!slug) {
@@ -315,106 +257,162 @@
       const res  = await fetch(`${API}/api/batch/${slug}`);
       const json = await res.json();
 
-      // Kalau batch tidak ditemukan, redirect ke anime detail
       if (!json.status || !json.data || !json.data.title) {
         window.location.href = `/anime?slug=${slug}`;
         return;
       }
 
       const d = json.data || {};
+      const title = d.title || d.english || d.japanese || slug;
 
-      document.title = `${d.title || 'Batch'}  MiruApp`;
+      const scoreRaw   = d.score;
+      const scoreVal   = scoreRaw ? (typeof scoreRaw === 'object' ? (scoreRaw.value || '').trim() : String(scoreRaw).trim()) : '';
+      const scoreUsers = typeof scoreRaw === 'object' ? (scoreRaw.users || '') : '';
 
-      /* Synopsis handle */
       const synRaw = d.synopsis || d.description;
       let synHTML  = '';
+      let connections = [];
       if (synRaw) {
         if (typeof synRaw === 'object' && Array.isArray(synRaw.paragraphs)) {
-          synHTML = synRaw.paragraphs.filter(p => p && p.trim()).map(p => `<p>${p}</p>`).join('');
+          synHTML = synRaw.paragraphs
+            .filter(p => p && p.trim())
+            .filter(p => !/tonton juga/i.test(p))
+            .map(p => `<p>${p}</p>`).join('');
+          connections = synRaw.connections || [];
         } else {
           synHTML = `<p>${synRaw}</p>`;
         }
       }
 
+      document.title = `${title}  MiruApp`;
+
+      const genreTags = (d.genreList || []).map(g =>
+        `<a class="genre-tag" href="/genres/${g.genreId}">${g.title}</a>`
+      ).join('');
+
       document.getElementById('batchHero').innerHTML = `
-        <div class="hero-backdrop" style="background-image: url('${d.poster || ''}')"></div>
         <div class="container">
-          <div class="hero-inner">
-            <div class="poster-col">
-              <div class="poster-wrapper">
-                <img src="${d.poster || '/img/placeholder.svg'}" alt="${d.title}" onerror="this.src='/img/placeholder.svg'"/>
-              </div>
+          <div class="detail-hero-inner">
+            <div class="detail-poster">
+              <img src="${d.poster || '/img/placeholder.svg'}" alt="${title}" onerror="this.src='/img/placeholder.svg'"/>
             </div>
-            <div class="info-col">
-              <span class="batch-label">Full Season Batch</span>
-              <h1 class="hero-title">${d.title || 'Batch Anime'}</h1>
-              
-              <div class="hero-meta-row">
-                <div class="meta-item"><i data-lucide="layers"></i> ${d.episodes || '-'} Episode</div>
-                <div class="meta-item"><i data-lucide="calendar"></i> ${d.aired || '-'}</div>
-                <div class="meta-item"><i data-lucide="tv"></i> ${d.type || 'TV'}</div>
-                <div class="meta-item"><i data-lucide="hash"></i> ${d.status || 'Finished'}</div>
+
+            <div class="detail-info">
+              <h1 class="detail-title">${title}</h1>
+              ${d.english ? `<div class="detail-alt-title">${d.english}</div>` : ''}
+
+              <div class="detail-badges">
+                <span class="badge badge-accent">Batch</span>
+                ${d.type ? `<span class="badge badge-accent">${d.type}</span>` : ''}
+                ${d.status ? `<span class="badge">${d.status}</span>` : ''}
+                ${scoreVal ? `<span class="badge">⭐ ${scoreVal}</span>` : ''}
+                ${d.episodes ? `<span class="badge">${d.episodes} Eps</span>` : ''}
               </div>
 
-              <div class="synopsis-box">
-                <div class="synopsis-title"><i data-lucide="align-left"></i> SINOPSIS</div>
-                <div class="synopsis-text">${synHTML || '<p>Tidak ada deskripsi tersedia.</p>'}</div>
+              <div class="detail-synopsis">
+                <div class="detail-synopsis-inner" id="synopsisInner">
+                  ${synHTML || '<p>Tidak ada sinopsis.</p>'}
+                </div>
+                <button class="synopsis-toggle" id="synopsisToggle" onclick="toggleSynopsis()">
+                  <span id="synopsisLabel">Baca Selengkapnya</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
               </div>
+
+              ${connections.length ? `
+              <div class="detail-connections">
+                <div class="detail-connections-title">Tonton Juga</div>
+                <div class="detail-conn-list">
+                  ${connections.map(c => `
+                    <a class="detail-conn-link" href="/anime?slug=${c.animeId}">
+                      <svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor"><polygon points="2,1 11,6 2,11"/></svg>
+                      ${c.title}
+                    </a>`).join('')}
+                </div>
+              </div>` : ''}
+
+              ${genreTags ? `<div class="genre-grid">${genreTags}</div>` : ''}
             </div>
           </div>
         </div>`;
 
-      document.getElementById('mainContent').style.display = 'grid';
+      document.getElementById('mainContent').style.display = '';
+      initSynopsisToggle();
 
-      /*  Detail Grid  */
-      const infoItems = [
-        ['Japanese',      d.japanese],
-        ['English',       d.english],
-        ['Status',        d.status],
-        ['Type',          d.type],
-        ['Source',        d.source],
-        ['Duration',      d.duration],
-        ['Episodes',      d.episodes],
-        ['Season',        d.season],
-        ['Studio',        d.studios],
-        ['Producers',     d.producers],
-        ['Released',      d.aired],
-        ['Credit',        d.credit],
-        ['Score',         d.score],
-      ].filter(([, v]) => v != null && String(v).trim() !== '' && v !== 'null');
+      function infoCell(label, value) {
+        if (value == null || String(value).trim() === '' || value === 'null') return '';
+        const isStatus = label === 'Status';
+        return `
+          <div class="info-panel-cell">
+            <div class="info-panel-label">${label}</div>
+            <div class="info-panel-value${isStatus ? ' is-ongoing' : ''}">${value}</div>
+          </div>`;
+      }
 
-      document.getElementById('infoGrid').innerHTML = infoItems.map(([lbl, val]) => `
-        <div class="info-item">
-          <div class="info-label">${lbl}</div>
-          <div class="info-value">${val}</div>
-        </div>
-      `).join('');
+      const infoPairs = [
+        ['Status',    d.status],
+        ['Type',      d.type],
+        ['Source',    d.source],
+        ['Duration',  d.duration],
+        ['Season',    d.season],
+        ['Studio',    d.studios],
+        ['Producers', d.producers],
+        ['Aired',     d.aired],
+        ['Credit',    d.credit],
+      ];
+
+      let infoCells = infoCell('Japanese', d.japanese)
+                    + infoCell('English',  d.english);
+      if (d.episodes) infoCells += infoCell('Episodes', d.episodes);
+      infoPairs.forEach(([lbl, val]) => { infoCells += infoCell(lbl, val); });
+
+      document.getElementById('infoGrid').innerHTML =
+        `<div class="info-panel-grid">${infoCells}</div>`;
+
+      const scoreEl = document.getElementById('infoScore');
+      if (scoreVal) {
+        const filled = Math.min(5, Math.round(parseFloat(scoreVal) / 2));
+        scoreEl.style.display = '';
+        scoreEl.innerHTML = `
+          <div class="info-panel-score-top">
+            <span class="info-panel-score-label">Score</span>
+            ${scoreUsers ? `<span class="info-panel-score-users">(${scoreUsers})</span>` : ''}
+          </div>
+          <div class="info-panel-stars">
+            ${[1,2,3,4,5].map(i => `<span class="${i <= filled ? 'filled' : ''}">★</span>`).join('')}
+          </div>
+          <div class="info-panel-score-num">${scoreVal}</div>`;
+      } else {
+        scoreEl.style.display = 'none';
+      }
 
       const formats = d.downloadUrl?.formats || d.downloads || [];
       if (formats.length) {
         document.getElementById('dlSection').style.display = 'block';
+        document.getElementById('dlSectionTitle').innerHTML = `${BATCH_ICON} Link Download Batch`;
         document.getElementById('dlLinks').innerHTML = formats.map(fmt => {
-          // Ambil hanya tipe format (MKV / MP4 / x265)  buang nama anime di belakangnya
           const fmtLabel = fmt.title.split(' ')[0] || fmt.title;
           return `
-          <div class="dl-card">
-            <div class="dl-card-header"><i data-lucide="file-archive"></i> ${fmtLabel}</div>
+          <div class="download-card">
+            <div class="download-card-title">${DL_ICON} ${fmtLabel}</div>
             ${(fmt.qualities || []).map(q => `
-              <div class="dl-quality-group">
+              <div class="download-quality-item">
                 <span class="quality-label">${q.title.trim()}</span>
-                <div class="dl-links">
+                <div class="download-btn-group">
                   ${(q.urls || []).map(u => {
                     const isDead = !u.url || u.url === '#' || u.url.trim() === '' || (u.title && u.title.includes('<s>'));
                     const cleanTitle = (u.title || 'Download').replace(/<\/?s>/g, '');
-                    return `<a href="${u.url || '#'}" target="_blank" class="dl-link-btn ${isDead ? 'dead' : ''}">${cleanTitle}</a>`;
+                    return `<a href="${u.url || '#'}" target="_blank" class="dl-btn ${isDead ? 'dead' : ''}">${cleanTitle}</a>`;
                   }).join('')}
                 </div>
               </div>`).join('')}
           </div>`;
         }).join('');
       }
-
-      lucide.createIcons();
 
     } catch (err) {
       console.error(err);
@@ -427,13 +425,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-

@@ -6,76 +6,301 @@
   <title>MiruApp — Profil</title>
   <link rel="stylesheet" href="/css/style.css" />
   <link rel="icon" type="image/x-icon" href="/icon/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Archivo:wght@400;700;900&family=DM+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <style>
-    .profile-wrap {
-      max-width: 520px;
-      margin: 3rem auto;
-      padding: 0 1.5rem;
+    .profile-page {
+      --pf-border: #1a1a1a;
+      --pf-yellow: #FFE500;
+      --pf-red: #FF3B00;
+      --pf-muted: #666;
+      --pf-bg: #f0f0f0;
+      font-family: 'Archivo', sans-serif;
+      background: var(--pf-bg);
+      min-height: calc(100vh - 72px);
     }
-    .profile-header {
+
+    .profile-wrap {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 1.75rem;
+    }
+
+    /* ── Left Column: Hero & Stats ── */
+    .left-column {
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+    }
+
+    .profile-hero {
+      background: var(--pf-yellow);
+      border: 3px solid var(--pf-border);
+      box-shadow: 5px 5px 0 var(--pf-border);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .profile-avatar {
+      width: 92px;
+      height: 92px;
+      background: var(--pf-border);
+      border: 3px solid var(--pf-border);
       display: flex;
       align-items: center;
-      gap: 1.25rem;
-      margin-bottom: 2rem;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 0.875rem;
     }
-    .profile-avatar {
-      width: 72px; height: 72px;
-      border-radius: 50%;
-      background: var(--accent);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.75rem;
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-avatar span {
+      font-family: 'Archivo', sans-serif;
+      font-size: 2.75rem;
       font-weight: 900;
-      color: #fff;
-      flex-shrink: 0;
+      color: var(--pf-yellow);
     }
+
     .profile-name {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: #fff;
-    }
-    .profile-email {
-      font-size: .85rem;
-      color: var(--text-muted);
-      margin-top: .2rem;
-    }
-    .profile-role {
-      display: inline-block;
-      margin-top: .4rem;
-      padding: .15rem .6rem;
-      background: rgba(255,255,255,.08);
-      border-radius: 20px;
-      font-size: .7rem;
-      font-weight: 700;
-      letter-spacing: .5px;
-      color: var(--text-muted);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.625rem;
+      font-weight: 900;
       text-transform: uppercase;
+      color: var(--pf-border);
+      letter-spacing: 0.02em;
+      line-height: 1.1;
     }
-    .divider { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+
+    .profile-email {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.875rem;
+      color: var(--pf-border);
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+
+    .profile-role {
+      margin-top: 0.75rem;
+      padding: 0.2rem 0.875rem;
+      background: var(--pf-border);
+      color: var(--pf-yellow);
+      font-family: 'Archivo', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 3px solid var(--pf-border);
+    }
+
+    .stats-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 3px solid var(--pf-border);
+      box-shadow: 5px 5px 0 var(--pf-border);
+      background: #fff;
+    }
+
+    .stat-item {
+      padding: 1rem 1.125rem;
+      text-align: center;
+      border-right: 3px solid var(--pf-border);
+    }
+
+    .stat-item:last-child {
+      border-right: none;
+    }
+
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 900;
+      font-size: 1.625rem;
+      color: var(--pf-border);
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--pf-muted);
+      text-transform: uppercase;
+      margin-top: 0.1875rem;
+    }
+
+    .profile-logout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.75rem;
+      background: #FF3B00;
+      border: 3px solid var(--pf-border);
+      box-shadow: 5px 5px 0 var(--pf-border);
+      color: #fff;
+      font-family: 'Archivo', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: transform 80ms ease, box-shadow 80ms ease;
+      margin-top: 0.25rem;
+    }
+
+    .profile-logout:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 7px 7px 0 var(--pf-border);
+    }
+
+    .profile-logout:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--pf-border);
+    }
+
+    /* ── Right Column: Menus ── */
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.125rem;
+    }
+
+    .profile-section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--pf-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-menu {
+      box-shadow: 5px 5px 0 var(--pf-border);
+      background: #fff;
+      margin-bottom: 0;
+    }
+
     .menu-item {
       display: flex;
       align-items: center;
-      gap: .9rem;
-      padding: .9rem 1rem;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      margin-bottom: .6rem;
+      gap: 0.875rem;
+      padding: 1rem 1.125rem;
+      border: 3px solid var(--pf-border);
+      border-top: none;
+      background: #fff;
       cursor: pointer;
-      transition: background .2s, border-color .2s;
-      color: #fff;
-      font-size: .9rem;
-      font-weight: 500;
+      transition: transform 80ms ease, box-shadow 80ms ease, background 80ms ease;
+      text-decoration: none;
+      color: inherit;
     }
-    .menu-item:hover { background: var(--bg-card); border-color: rgba(255,255,255,.15); }
-    .menu-item.danger { color: #ff6b6b; }
-    .menu-item.danger:hover { border-color: rgba(230,57,70,.4); background: rgba(230,57,70,.08); }
-    .menu-icon { font-size: 1.1rem; opacity: .7; }
-    .menu-chevron { margin-left: auto; opacity: .25; }
+
+    .menu-item:first-child {
+      border-top: 3px solid var(--pf-border);
+    }
+
+    .menu-item:hover {
+      background: var(--pf-yellow);
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--pf-border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .menu-icon-box {
+      width: 48px;
+      height: 48px;
+      background: var(--pf-yellow);
+      border: 3px solid var(--pf-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 80ms ease, color 80ms ease;
+    }
+
+    .menu-icon-box i {
+      font-size: 1.375rem;
+      color: var(--pf-border);
+      transition: color 80ms ease;
+    }
+
+    .menu-item:hover .menu-icon-box {
+      background: var(--pf-border);
+    }
+
+    .menu-item:hover .menu-icon-box i {
+      color: var(--pf-yellow);
+    }
+
+    .menu-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .menu-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--pf-border);
+      line-height: 1.2;
+    }
+
+    .menu-subtitle {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--pf-muted);
+      margin-top: 0.1875rem;
+      line-height: 1.4;
+    }
+
+    .menu-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .menu-badge {
+      background: var(--pf-border);
+      color: var(--pf-yellow);
+      font-family: 'Archivo', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 900;
+      padding: 0.1875rem 0.5rem;
+      border: 2px solid var(--pf-border);
+      min-width: 1.625rem;
+      text-align: center;
+    }
+
+    .menu-arrow {
+      font-size: 1.375rem;
+      color: var(--pf-border);
+    }
+
+    @media (max-width: 900px) {
+      .profile-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
-<body>
+<body class="profile-page">
   <nav class="navbar">
-    <a class="navbar-brand" href="/"> <span>MiruApp</span></a>
+    <a class="navbar-brand" href="/">MIRUAPP</a>
     <ul class="navbar-nav">
       <li><a href="/">Home</a></li>
       <li><a href="/ongoing">Ongoing</a></li>
@@ -84,46 +309,130 @@
       <li><a href="/batch">Batch</a></li>
       <li><a href="/daftar-anime">Daftar Anime</a></li>
     </ul>
-    <div style="display:flex;align-items:center;gap:.75rem">
-      <div class="navbar-search">
-        <input type="text" id="navSearch" placeholder="Cari anime..." />
-        <button onclick="doNavSearch()">Cari</button>
-      </div>
+    <div class="navbar-right">
+      <button class="navbar-search-icon" id="searchBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
       <div id="navAuth"></div>
     </div>
   </nav>
 
-  <div class="profile-wrap">
-    <div class="profile-header">
-      <div class="profile-avatar" id="profileAvatar">?</div>
-      <div>
-        <div class="profile-name" id="profileName">—</div>
-        <div class="profile-email" id="profileEmail">—</div>
-        <span class="profile-role" id="profileRole">user</span>
+  <div class="search-modal" id="searchModal">
+    <div class="search-modal-overlay" id="searchOverlay"></div>
+    <div class="search-modal-content">
+      <button class="search-modal-close" id="searchCloseBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="search-modal-input-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="modalSearch" placeholder="Cari anime...">
+        <button class="search-modal-submit" id="modalSearchSubmit">Cari</button>
       </div>
     </div>
+  </div>
 
-    <hr class="divider" />
+  <div class="profile-wrap">
+    <div class="left-column">
+      <div class="profile-hero">
+        <div class="profile-avatar" id="profileAvatar">?</div>
+        <div class="profile-name" id="profileName">—</div>
+        <div class="profile-email" id="profileEmail">—</div>
+        <span class="profile-role" id="profileRole">USER</span>
+      </div>
 
-    <div class="menu-item" onclick="window.location.href='/profile/history'">
-      <span class="menu-icon">🕐</span> Riwayat Tontonan
-      <span class="menu-chevron">›</span>
+      <div class="stats-container">
+        <div class="stat-item">
+          <div class="stat-value" id="historyCount">0</div>
+          <div class="stat-label">Ditonton</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="favCount">0</div>
+          <div class="stat-label">Favorit</div>
+        </div>
+      </div>
+
+      <button class="profile-logout" onclick="doLogout()">
+        <i class="ti ti-logout"></i>
+        Keluar
+      </button>
     </div>
-    <div class="menu-item" onclick="window.location.href='/profile/favorites'">
-      <span class="menu-icon">❤️</span> Favorit
-      <span class="menu-chevron">›</span>
-    </div>
 
-    <hr class="divider" />
+    <div class="right-column">
+      <div>
+        <div class="profile-section-label">Aktivitas</div>
+        <div class="profile-menu">
+          <a class="menu-item" href="/profile/history">
+            <div class="menu-icon-box">
+              <i class="ti ti-history"></i>
+            </div>
+            <div class="menu-text">
+              <div class="menu-title">Riwayat Tontonan</div>
+              <div class="menu-subtitle">Anime yang pernah kamu tonton</div>
+            </div>
+            <div class="menu-right">
+              <i class="ti ti-arrow-right menu-arrow"></i>
+            </div>
+          </a>
+          <a class="menu-item" href="/profile/favorites">
+            <div class="menu-icon-box">
+              <i class="ti ti-heart"></i>
+            </div>
+            <div class="menu-text">
+              <div class="menu-title">Favorit</div>
+              <div class="menu-subtitle">Koleksi anime favoritmu</div>
+            </div>
+            <div class="menu-right">
+              <i class="ti ti-arrow-right menu-arrow"></i>
+            </div>
+          </a>
+        </div>        
+      </div>
 
-    <div class="menu-item danger" onclick="doLogout()">
-      <span class="menu-icon">🚪</span> Keluar
-      <span class="menu-chevron">›</span>
+      <div>
+        <div class="profile-section-label">Pengaturan</div>
+        <div class="profile-menu">
+          <a class="menu-item" href="/profile/settings">
+            <div class="menu-icon-box">
+              <i class="ti ti-settings"></i>
+            </div>
+            <div class="menu-text">
+              <div class="menu-title">Edit Profil</div>
+              <div class="menu-subtitle">Ubah foto, username, dan email</div>
+            </div>
+            <div class="menu-right">
+              <i class="ti ti-arrow-right menu-arrow"></i>
+            </div>
+          </a>
+          <a class="menu-item" href="/profile/change-password">
+            <div class="menu-icon-box">
+              <i class="ti ti-lock"></i>
+            </div>
+            <div class="menu-text">
+              <div class="menu-title">Ganti Password</div>
+              <div class="menu-subtitle">Ubah kata sandi kamu</div>
+            </div>
+            <div class="menu-right">
+              <i class="ti ti-arrow-right menu-arrow"></i>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
   <script src="/js/helpers.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/search-modal.js"></script>
+  <script src="/js/modal.js"></script>
   <script>
     initNavSearch();
     renderAuthNav();
@@ -134,18 +443,53 @@
     if (!token || !user) {
       window.location.href = '/login';
     } else {
-      const initial = (user.username || '?')[0].toUpperCase();
-      document.getElementById('profileAvatar').textContent = initial;
-      document.getElementById('profileName').textContent   = user.username || '—';
-      document.getElementById('profileEmail').textContent  = user.email    || '—';
-      document.getElementById('profileRole').textContent   = (user.role || 'user').toUpperCase();
+      const avatarEl = document.getElementById('profileAvatar');
+      if (user.avatarUrl) {
+        avatarEl.innerHTML = `<img src="${user.avatarUrl}" alt="Avatar">`;
+      } else if (user.avatar_url) {
+        avatarEl.innerHTML = `<img src="${user.avatar_url}" alt="Avatar">`;
+      } else {
+        const initial = (user.username || '?')[0].toUpperCase();
+        avatarEl.innerHTML = `<span>${initial}</span>`;
+      }
+      document.getElementById('profileName').textContent = (user.username || '—').toUpperCase();
+      document.getElementById('profileEmail').textContent = user.email || '—';
+      document.getElementById('profileRole').textContent = (user.role || 'user').toUpperCase();
+      loadCounts();
+    }
+
+    async function loadCounts() {
+      try {
+        const [favRes, histRes] = await Promise.all([
+          authFetch('/api/user/favorites'),
+          authFetch('/api/user/history')
+        ]);
+        const favJson = await favRes.json();
+        const histJson = await histRes.json();
+
+        if (favJson.success) {
+          document.getElementById('favCount').textContent = (favJson.data || []).length;
+        }
+        if (histJson.success) {
+          document.getElementById('historyCount').textContent = (histJson.data || []).length;
+        }
+      } catch (_) {}
     }
 
     function doLogout() {
-      if (!confirm('Yakin ingin keluar?')) return;
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('auth_user');
-      window.location.href = '/';
+      openConfirmModal({
+        topBarLabel: "KONFIRMASI KELUAR",
+        title: "Keluar",
+        titleHighlight: "Akun",
+        description: "Anda akan keluar dari akun Anda saat ini.",
+        cancelText: "BATAL",
+        confirmText: "YA KELUAR",
+        onConfirm: () => {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('auth_user');
+          window.location.href = '/';
+        }
+      });
     }
   </script>
 </body>

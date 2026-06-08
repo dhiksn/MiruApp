@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiruApp — Edit Profil</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/x-icon" href="/icon/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700;800&family=Archivo:wght@400;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Archivo', sans-serif;
+      background: #f0f0f0;
+      min-height: calc(100vh - 72px);
+    }
+
+    .main-container {
+      width: 100%;
+      padding: 1.5rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #fff;
+      border: 3px solid #1a1a1a;
+      box-shadow: 3px 3px 0 #1a1a1a;
+      padding: 0.625rem 1rem;
+      font-family: 'Archivo', sans-serif;
+      font-weight: 900;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 80ms ease, box-shadow 80ms ease, background 80ms ease;
+      margin-bottom: 1.5rem;
+    }
+
+    .back-btn:hover {
+      background: #FFE500;
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0 #1a1a1a;
+    }
+
+    .back-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0 #1a1a1a;
+    }
+
+    /* Page Header */
+    .page-header {
+      margin-bottom: 2rem;
+      background: #FFE500;
+      border: 3px solid #1a1a1a;
+      box-shadow: 5px 5px 0 #1a1a1a;
+      padding: 1.5rem;
+    }
+    .page-header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      color: #1a1a1a;
+    }
+    .page-header p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.875rem;
+      color: #1a1a1a;
+      opacity: 0.8;
+      margin-top: 0.375rem;
+    }
+
+    .content-card {
+      background: #fff;
+      border: 3px solid #1a1a1a;
+      box-shadow: 5px 5px 0 #1a1a1a;
+      padding: 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+
+    /* Avatar Section */
+    .avatar-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      margin-bottom: 0.75rem;
+    }
+
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border: 4px solid #1a1a1a;
+      background: #FFE500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .profile-avatar span {
+      font-family: 'Archivo', sans-serif;
+      font-weight: 900;
+      font-size: 3rem;
+      color: #1a1a1a;
+    }
+
+    .change-avatar-btn {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      width: 36px;
+      height: 36px;
+      background: #FF3B00;
+      border: 3px solid #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 80ms ease;
+    }
+    .change-avatar-btn:hover {
+      transform: translate(-2px, -2px);
+    }
+    .change-avatar-btn i {
+      color: #fff;
+      font-size: 1.25rem;
+    }
+    .change-avatar-btn input {
+      display: none;
+    }
+
+    .avatar-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: #666;
+    }
+
+    /* Form Groups */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-label {
+      font-family: 'Archivo', sans-serif;
+      font-weight: 900;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: #1a1a1a;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .form-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #fff;
+      border: 3px solid #1a1a1a;
+      box-shadow: 4px 4px 0 #1a1a1a;
+      padding: 0.75rem 1rem;
+    }
+    .form-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: 'Archivo', sans-serif;
+      font-size: 1rem;
+      color: #1a1a1a;
+      background: transparent;
+    }
+    .form-input::placeholder {
+      color: #666;
+    }
+    .edit-btn {
+      width: 32px;
+      height: 32px;
+      border: 2px solid #1a1a1a;
+      background: #FFE500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 80ms ease, background 80ms ease;
+    }
+    .edit-btn:hover {
+      transform: translate(-1px, -1px);
+      background: #fff;
+    }
+    .edit-btn i {
+      font-size: 1.125rem;
+      color: #1a1a1a;
+    }
+
+    /* Section Divider */
+    .section-divider {
+      border-top: 3px solid #1a1a1a;
+      margin: 2rem 0;
+    }
+
+    /* Menu Items for Security Section */
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.125rem;
+      border: 3px solid #1a1a1a;
+      background: #fff;
+      cursor: pointer;
+      transition: transform 80ms ease, box-shadow 80ms ease, background 80ms ease;
+      text-decoration: none;
+      color: inherit;
+      margin-bottom: 0;
+    }
+    .menu-item:hover {
+      background: #FFE500;
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 #1a1a1a;
+    }
+    .menu-icon-box {
+      width: 44px;
+      height: 44px;
+      background: #FFE500;
+      border: 3px solid #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .menu-icon-box i {
+      font-size: 1.25rem;
+      color: #1a1a1a;
+    }
+    .menu-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .menu-title {
+      font-size: 0.9375rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #1a1a1a;
+      line-height: 1.2;
+    }
+    .menu-subtitle {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: #666;
+      margin-top: 0.2rem;
+    }
+    .menu-arrow {
+      font-size: 1.125rem;
+      color: #1a1a1a;
+    }
+
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="navbar-brand" href="/">MIRUAPP</a>
+    <ul class="navbar-nav">
+      <li><a href="/">Home</a></li>
+      <li><a href="/ongoing">Ongoing</a></li>
+      <li><a href="/movies">Movies</a></li>
+      <li><a href="/schedule">Jadwal</a></li>
+      <li><a href="/batch">Batch</a></li>
+      <li><a href="/daftar-anime">Daftar Anime</a></li>
+    </ul>
+    <div class="navbar-right">
+      <button class="navbar-search-icon" id="searchBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+      <div id="navAuth"></div>
+    </div>
+  </nav>
+
+  <div class="search-modal" id="searchModal">
+    <div class="search-modal-overlay" id="searchOverlay"></div>
+    <div class="search-modal-content">
+      <button class="search-modal-close" id="searchCloseBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="search-modal-input-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="modalSearch" placeholder="Cari anime...">
+        <button class="search-modal-submit" id="modalSearchSubmit">Cari</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <button class="back-btn" onclick="window.location.href='/profile'">
+      <i class="ti ti-arrow-left"></i>
+      Kembali
+    </button>
+
+    <div class="page-header">
+      <h1>Edit Profil</h1>
+      <p>Kelola foto, username, dan email kamu</p>
+    </div>
+
+    <!-- Avatar Section -->
+    <div class="content-card">
+      <div class="avatar-section">
+        <div class="avatar-wrapper">
+          <div class="profile-avatar" id="profileAvatar">
+            <span id="avatarInitial">?</span>
+          </div>
+          <label class="change-avatar-btn">
+            <i class="ti ti-camera"></i>
+            <input type="file" id="avatarInput" accept="image/*">
+          </label>
+        </div>
+        <p class="avatar-note">Ketuk ikon kamera untuk mengganti foto profil</p>
+      </div>
+    </div>
+
+    <!-- Form Groups -->
+    <div class="content-card">
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <div class="form-input-wrapper">
+          <input type="text" id="usernameInput" class="form-input" readonly>
+          <button class="edit-btn" onclick="openEditField('username')">
+            <i class="ti ti-pencil"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <div class="form-input-wrapper">
+          <input type="email" id="emailInput" class="form-input" readonly>
+          <button class="edit-btn" onclick="openEditField('email')">
+            <i class="ti ti-pencil"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <script src="/js/helpers.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/search-modal.js"></script>
+  <script src="/js/modal.js"></script>
+  <script>
+    initNavSearch();
+    renderAuthNav();
+
+    const token = localStorage.getItem('auth_token');
+    const currentUser = JSON.parse(localStorage.getItem('auth_user') || 'null');
+
+    if (!token || !currentUser) {
+      window.location.href = '/login';
+    }
+
+    function initPage() {
+      if (!currentUser) return;
+      const initial = (currentUser.username || '?')[0].toUpperCase();
+      const avatarEl = document.getElementById('profileAvatar');
+      if (currentUser.avatarUrl) {
+        avatarEl.innerHTML = `<img src="${currentUser.avatarUrl}" alt="Avatar">`;
+      } else if (currentUser.avatar_url) {
+        avatarEl.innerHTML = `<img src="${currentUser.avatar_url}" alt="Avatar">`;
+      } else {
+        avatarEl.innerHTML = `<span id="avatarInitial">${initial}</span>`;
+      }
+      document.getElementById('usernameInput').value = currentUser.username || '';
+      document.getElementById('emailInput').value = currentUser.email || '';
+    }
+    
+    setTimeout(() => {
+      initPage();
+    }, 100);
+
+    // Avatar upload
+    document.getElementById('avatarInput').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      try {
+        const formData = new FormData();
+        formData.append('avatar', file);
+
+        const uploadRes = await fetch('/api/auth/avatar', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${Auth.getToken()}`,
+          },
+          body: formData
+        });
+
+        const uploadJson = await uploadRes.json();
+
+        if (uploadJson.success) {
+          currentUser.avatarUrl = uploadJson.avatar_url;
+          currentUser.avatar_url = uploadJson.avatar_url;
+          localStorage.setItem('auth_user', JSON.stringify(currentUser));
+          renderAuthNav();
+          initPage();
+        } else {
+          alert('Gagal mengunggah avatar: ' + (uploadJson.message || 'Unknown error'));
+        }
+      } catch (err) {
+        alert('Terjadi kesalahan saat mengunggah avatar: ' + err.message);
+      }
+    });
+
+    function openEditField(field) {
+      const currentValue = field === 'username' ? currentUser.username : currentUser.email;
+      showInputModal({
+        title: `Ubah ${field === 'username' ? 'Username' : 'Email'}`,
+        placeholder: `Masukkan ${field} baru`,
+        initialValue: currentValue,
+        onConfirm: async (newValue) => {
+          if (!newValue.trim()) {
+            alert(`${field === 'username' ? 'Username' : 'Email'} tidak boleh kosong!`);
+            return;
+          }
+          try {
+            const updateData = {};
+            updateData[field] = newValue;
+            const updateRes = await authFetch('/api/auth/profile', {
+              method: 'PATCH',
+              body: JSON.stringify(updateData)
+            });
+            const updateJson = await updateRes.json();
+            if (updateJson.success) {
+              currentUser.username = updateJson.user.username;
+              currentUser.email = updateJson.user.email;
+              if (updateJson.user.avatar_url) {
+                currentUser.avatarUrl = updateJson.user.avatar_url;
+                currentUser.avatar_url = updateJson.user.avatar_url;
+              }
+              localStorage.setItem('auth_user', JSON.stringify(currentUser));
+              renderAuthNav();
+              initPage();
+            } else {
+              alert('Gagal memperbarui: ' + (updateJson.message || 'Unknown error'));
+            }
+          } catch (err) {
+            alert('Terjadi kesalahan: ' + err.message);
+          }
+        }
+      });
+    }
+
+    function showInputModal(options) {
+      const existing = document.getElementById('inputModal');
+      if (existing) existing.remove();
+
+      const modal = document.createElement('div');
+      modal.id = 'inputModal';
+      modal.className = 'modal-overlay';
+      modal.style.display = 'flex';
+      modal.innerHTML = `
+        <div class="modal">
+          <div class="modal-top-bar">
+            <i class="ti ti-edit"></i>
+            <span class="modal-top-bar-label">${options.title.toUpperCase()}</span>
+          </div>
+          <div class="modal-body" style="padding: 1.75rem 1.5rem 1.5rem;">
+            <input type="text" id="modalInput" class="form-input" placeholder="${options.placeholder}" value="${options.initialValue || ''}" style="width:100%;border:3px solid #1a1a1a;box-shadow:3px 3px 0 #1a1a1a;padding:0.75rem 1rem;font-family:Archivo, sans-serif;font-size:1rem;margin-bottom:1.5rem;">
+            <div class="modal-buttons">
+              <button class="modal-btn modal-btn-secondary" id="inputModalCancel">
+                <i class="ti ti-x"></i>
+                Batal
+              </button>
+              <button class="modal-btn modal-btn-primary" id="inputModalConfirm">
+                <i class="ti ti-check"></i>
+                Simpan
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+      });
+      document.getElementById('inputModalCancel').addEventListener('click', () => modal.remove());
+      document.getElementById('inputModalConfirm').addEventListener('click', () => {
+        const value = document.getElementById('modalInput').value;
+        modal.remove();
+        if (options.onConfirm) options.onConfirm(value);
+      });
+
+      document.getElementById('modalInput').focus();
+    }
+  </script>
+</body>
+</html>

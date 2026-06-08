@@ -14,6 +14,53 @@ const Auth = {
   },
 };
 
+let _meFetchPromise = null;
+
+function setAuthUser(nextUser) {
+  if (!nextUser) return;
+  const current = Auth.getUser() || {};
+  const merged = { ...current, ...nextUser };
+  if (!merged.avatarUrl && merged.avatar_url) merged.avatarUrl = merged.avatar_url;
+  localStorage.setItem('auth_user', JSON.stringify(merged));
+}
+
+async function refreshAuthUserFromMe() {
+  if (_meFetchPromise) return _meFetchPromise;
+  if (!Auth.isLoggedIn()) return null;
+  _meFetchPromise = (async () => {
+    try {
+      const res = await fetch('/api/auth/me', {
+        method: 'GET',
+        headers: {
+          ...(Auth.getToken() ? { Authorization: `Bearer ${Auth.getToken()}` } : {}),
+        },
+      });
+      const json = await res.json().catch(() => null);
+      if (json?.success && json.user) {
+        setAuthUser(json.user);
+        return json.user;
+      }
+      return null;
+    } catch {
+      return null;
+    } finally {
+      _meFetchPromise = null;
+    }
+  })();
+  return _meFetchPromise;
+}
+
+function getAvatarHTML(user) {
+  if (user?.avatarUrl) {
+    return `<img src="${user.avatarUrl}" alt="${user.username}" style="width:100%;height:100%;object-fit:cover;">`;
+  }
+  if (user?.avatar_url) {
+    return `<img src="${user.avatar_url}" alt="${user.username}" style="width:100%;height:100%;object-fit:cover;">`;
+  }
+  const initial = (user?.username || '?')[0].toUpperCase();
+  return initial;
+}
+
 /**
  * Render auth button di navbar
  * Panggil setelah DOM ready, pass selector container navbar kanan
@@ -23,18 +70,32 @@ function renderAuthNav(containerId = 'navAuth') {
   if (!el) return;
 
   const user = Auth.getUser();
-  if (Auth.isLoggedIn() && user) {
-    const initial = (user.username || '?')[0].toUpperCase();
+  if (Auth.isLoggedIn()) {
+    if (!user) {
+      refreshAuthUserFromMe().then(() => renderAuthNav(containerId));
+      el.innerHTML = `
+        <a href="/profile" class="nav-profile-btn" title="Akun">
+          <span class="nav-avatar">?</span>
+          <span class="nav-username">...</span>
+        </a>`;
+      return;
+    }
+
+    if (!user.avatarUrl && !user.avatar_url) {
+      refreshAuthUserFromMe().then(() => renderAuthNav(containerId));
+    }
+
     el.innerHTML = `
       <a href="/profile" class="nav-profile-btn" title="${user.username}">
-        <span class="nav-avatar">${initial}</span>
+        <span class="nav-avatar">${getAvatarHTML(user)}</span>
         <span class="nav-username">${user.username}</span>
       </a>`;
-  } else {
-    el.innerHTML = `
-      <a href="/login" class="nav-auth-link">Masuk</a>
-      <a href="/register" class="nav-auth-link nav-auth-register">Daftar</a>`;
+    return;
   }
+
+  el.innerHTML = `
+    <a href="/login" class="nav-auth-masuk">Masuk</a>
+    <a href="/register" class="nav-auth-daftar">Daftar</a>`;
 }
 
 /**

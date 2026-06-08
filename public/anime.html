@@ -10,433 +10,86 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png" />
   <link rel="apple-touch-icon" href="/icon/apple-touch-icon.png" />
   <link rel="manifest" href="/icon/site.webmanifest" />
-  <!-- Font: Outfit -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Icons: Lucid -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    :root {
-      --font-main: 'Outfit', sans-serif;
-    }
-    body {
-      font-family: var(--font-main);
-    }
-
-    /*  BREADCRUMBS  */
-    .breadcrumbs {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-    }
-    .breadcrumbs a {
-      color: var(--text-muted);
-      transition: var(--transition);
-    }
-    .breadcrumbs a:hover {
-      color: var(--accent);
-    }
-    .breadcrumbs span {
-      opacity: 0.5;
-    }
-
-    /*  HERO  */
-    .anime-hero {
-      position: relative;
-      overflow: hidden;
-      padding: 3rem 0;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-secondary);
-    }
-    .anime-hero-backdrop {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-size: cover;
-      background-position: center;
-      filter: blur(60px) brightness(0.25);
-      z-index: 0;
-      transform: scale(1.1);
-    }
-    .anime-hero-inner {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      gap: 2.5rem;
-      align-items: flex-start;
-    }
-
-    /* Poster + score */
-    .anime-poster-col {
-      flex-shrink: 0;
-      width: 220px;
-      position: relative;
-    }
-    .anime-poster-wrapper {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-      aspect-ratio: 2/3;
-    }
-    .anime-poster-wrapper img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
-    .anime-score-float {
-      position: absolute;
-      top: 12px; right: 12px;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(4px);
-      padding: 4px 10px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .anime-score-float i {
-      color: var(--accent2);
-      width: 14px; height: 14px;
-    }
-    .anime-score-float span {
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: #fff;
-    }
-
-    /* Info kanan */
-    .anime-info-col {
-      flex: 1;
-      min-width: 0;
-    }
-    .anime-hero-category {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 0.5rem;
-      display: block;
-    }
-    .anime-hero-title {
-      font-size: 2.2rem;
-      font-weight: 800;
-      margin-bottom: 0.5rem;
-      color: #fff;
-      line-height: 1.2;
-    }
-    .anime-hero-meta {
-      display: flex;
-      gap: 1.25rem;
-      margin-bottom: 1.5rem;
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.7);
-    }
-    .hero-meta-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .hero-meta-item i {
-      width: 16px; height: 16px;
-      color: var(--accent);
-    }
-
-    .anime-synopsis-box {
-      margin-top: 1.5rem;
-    }
-    .synopsis-title {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .anime-synopsis {
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.8);
-      line-height: 1.7;
-      max-height: 150px;
-      overflow-y: auto;
-      padding-right: 1rem;
-    }
-    .anime-synopsis::-webkit-scrollbar { width: 4px; }
-    .anime-synopsis::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
-
-    .anime-genre-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-top: 1.5rem;
-    }
-    .genre-pill {
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 30px;
-      padding: 0.4rem 1.1rem;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #fff;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-    .genre-pill:hover {
-      background: var(--accent);
-      border-color: var(--accent);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
-    }
-
-    /*  ACTION BUTTONS  */
-    .anime-actions {
-      display: flex;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
-      flex-wrap: wrap;
-    }
-    .action-btn {
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      padding: 0.65rem 1.25rem;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #fff;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .action-btn:hover {
-      background: rgba(255,255,255,0.15);
-      border-color: rgba(255,255,255,0.25);
-      transform: translateY(-2px);
-    }
-    .action-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-    .action-btn i {
-      width: 16px;
-      height: 16px;
-    }
-
-    /*  CONTENT TABS CAHCE  */
-    .content-grid {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    /*  DETAIL CARDS  */
-    .detail-section {
-      background: var(--bg-secondary);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      transition: var(--transition);
-    }
-    .detail-section:hover {
-      border-color: rgba(255,255,255,0.1);
-    }
-    .detail-section-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      color: #fff;
-    }
-    .detail-section-title i {
-      color: var(--accent);
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.25rem;
-    }
-    .info-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-    .info-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .info-value {
-      font-size: 0.95rem;
-      color: var(--text-primary);
-      font-weight: 500;
-    }
-
-    /*  EPISODE GRID  */
-    .ep-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-      gap: 0.75rem;
-    }
-    .ep-btn {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.8rem 0.5rem;
-      text-align: center;
-      font-size: 0.9rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      color: var(--text-primary);
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .ep-btn span {
-      font-size: 0.65rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-    .ep-btn:hover {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-      transform: scale(1.05);
-      box-shadow: 0 8px 16px rgba(230, 57, 70, 0.2);
-    }
-    .ep-btn:hover span { color: rgba(255,255,255,0.8); }
-
-    /*  BATCH  */
-    .batch-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .batch-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .batch-card:hover {
-      border-color: var(--accent);
-      transform: translateX(5px);
-    }
-    .batch-info {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .batch-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: rgba(230, 57, 70, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--accent);
-    }
-    .batch-text h4 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-    .batch-text p {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    @media (max-width: 900px) {
-      .content-grid { grid-template-columns: 1fr; }
-      .anime-hero-inner { flex-direction: column; align-items: center; text-align: center; }
-      .anime-hero-meta { justify-content: center; }
-      .anime-genre-tags { justify-content: center; }
-      .anime-synopsis { text-align: left; }
-      .anime-poster-col { width: 180px; }
-    }
-    @media (max-width: 640px) {
-      .info-grid { grid-template-columns: 1fr; }
-      .anime-hero-title { font-size: 1.6rem; }
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <nav class="navbar">
-  <div class="container" style="display: flex; width: 100%; align-items: center; justify-content: space-between; padding: 0;">
-    <a class="navbar-brand" href="/"> <span>MiruApp</span></a>
-    <ul class="navbar-nav">
-      <li><a href="/">Home</a></li>
-      <li><a href="/ongoing">Ongoing</a></li>
-      <li><a href="/movies">Movies</a></li>
-      <li><a href="/schedule">Jadwal</a></li>
-      <li><a href="/batch">Batch</a></li>
-      <li><a href="/daftar-anime">Daftar Anime</a></li>
-    </ul>
-    <div style="display:flex;align-items:center;gap:.75rem">
-      <div class="navbar-search">
-        <input type="text" id="navSearch" placeholder="Cari anime..." />
-        <button onclick="doNavSearch()"><i data-lucide="search" style="width:16px;height:16px;"></i></button>
-      </div>
-      <div id="navAuth"></div>
-    </div>
+  <a class="navbar-brand" href="/">MIRUAPP</a>
+  <ul class="navbar-nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/ongoing">Ongoing</a></li>
+    <li><a href="/movies">Movies</a></li>
+    <li><a href="/schedule">Jadwal</a></li>
+    <li><a href="/batch">Batch</a></li>
+    <li><a href="/daftar-anime">Daftar Anime</a></li>
+  </ul>
+  <div class="navbar-right">
+    <button class="navbar-search-icon" id="searchBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+    <div id="navAuth"></div>
   </div>
 </nav>
 
+<!-- Search Modal -->
+<div class="search-modal" id="searchModal">
+  <div class="search-modal-overlay" id="searchOverlay"></div>
+  <div class="search-modal-content">
+    <button class="search-modal-close" id="searchCloseBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="search-modal-input-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="modalSearch" placeholder="Cari anime...">
+      <button class="search-modal-submit" id="modalSearchSubmit">Cari</button>
+    </div>
+  </div>
+</div>
+
 <!-- HERO -->
-<div id="animeHero" class="anime-hero">
+<div id="animeHero" class="detail-hero">
   <div class="container">
     <div class="loading-overlay"><div class="spinner"></div><span>Memuat data anime...</span></div>
   </div>
 </div>
 
 <!-- MAIN CONTENT -->
-<div class="container" id="mainContent" style="display:none; padding-bottom: 5rem;">
+<div class="container detail-main" id="mainContent" style="display:none; padding-bottom: var(--space-12);">
   
-  <div class="content-grid">
+  <div class="layout-with-sidebar">
     <!-- INFO & SYNOPSIS (LEFT) -->
     <div class="col-left">
       <!-- BATCH -->
-      <div class="detail-section" id="batchSection" style="display:none">
-        <div class="detail-section-title"><i data-lucide="package"></i> Batch Download</div>
-        <div id="batchList" class="batch-list"></div>
+      <div class="sidebar-card" id="batchSection" style="display:none">
+        <div class="sidebar-card-header">Batch Download</div>
+        <div class="sidebar-card-body" id="batchList"></div>
       </div>
 
       <!-- EPISODE LIST -->
-      <div class="detail-section" id="epSection" style="display:none">
-        <div class="detail-section-title"><i data-lucide="play-circle"></i> Daftar Episode</div>
-        <div id="epGrid" class="ep-grid"></div>
+      <div class="sidebar-card" id="epSection" style="display:none">
+        <div class="sidebar-card-header">Daftar Episode</div>
+        <div class="sidebar-card-body" id="epGrid"></div>
       </div>
     </div>
 
     <!-- DETAILS (RIGHT) -->
     <div class="col-right">
-      <div class="detail-section" id="detailSection">
-        <div class="detail-section-title"><i data-lucide="info"></i> Informasi Anime</div>
-        <div class="info-grid" id="infoGrid"></div>
+      <div class="info-panel" id="detailSection">
+        <div class="info-panel-header">Informasi Anime</div>
+        <div id="infoGrid"></div>
+        <div class="info-panel-score" id="infoScore" style="display:none"></div>
       </div>
     </div>
   </div>
@@ -444,19 +97,36 @@
 </div>
 
 <footer>
-  <div class="container">
-    <div style="margin-bottom: 1rem;"> <strong>MiruApp</strong></div>
-    <p>Wrapper & UI by Antigravity &copy; 2024</p>
-  </div>
+  <p>MiruApp Wrapper & UI &copy; 2024</p>
 </footer>
 
 <script src="/js/helpers.js"></script>
 <script src="/js/auth.js"></script>
+<script src="/js/search-modal.js"></script>
 <script>
-  initNavSearch();
   renderAuthNav();
   const params = new URLSearchParams(location.search);
   const slug   = params.get('slug') || '';
+
+  function toggleSynopsis() {
+    const inner  = document.getElementById('synopsisInner');
+    const toggle = document.getElementById('synopsisToggle');
+    const label  = document.getElementById('synopsisLabel');
+    const expanded = inner.classList.toggle('expanded');
+    toggle.classList.toggle('expanded', expanded);
+    label.textContent = expanded ? 'Sembunyikan' : 'Baca Selengkapnya';
+  }
+
+  function initSynopsisToggle() {
+    const inner  = document.getElementById('synopsisInner');
+    const toggle = document.getElementById('synopsisToggle');
+    if (!inner || !toggle) return;
+
+    if (inner.scrollHeight <= inner.clientHeight + 1) {
+      inner.classList.add('expanded');
+      toggle.style.display = 'none';
+    }
+  }
 
   async function loadAnime() {
     if (!slug) {
@@ -488,7 +158,10 @@
       let connections = [];
       if (synRaw) {
         if (typeof synRaw === 'object' && Array.isArray(synRaw.paragraphs)) {
-          synHTML = synRaw.paragraphs.filter(p => p && p.trim()).map(p => `<p>${p}</p>`).join('');
+          synHTML = synRaw.paragraphs
+            .filter(p => p && p.trim())
+            .filter(p => !/tonton juga/i.test(p))
+            .map(p => `<p>${p}</p>`).join('');
           connections = synRaw.connections || [];
         } else {
           synHTML = `<p>${synRaw}</p>`;
@@ -499,67 +172,58 @@
 
       /*  Genre tags  */
       const genreTags = (d.genreList || []).map(g =>
-        `<a class="genre-pill" href="/genres/${g.genreId}">${g.title}</a>`
+        `<a class="genre-tag" href="/genres/${g.genreId}">${g.title}</a>`
       ).join('');
 
       /*  Hero HTML  */
       document.getElementById('animeHero').innerHTML = `
-        <div class="anime-hero-backdrop" style="background-image: url('${d.poster || ''}')"></div>
         <div class="container">
-          <div class="breadcrumbs">
-            <a href="/">Home</a> <span>/</span>
-            <a href="/">Anime</a> <span>/</span>
-            <span>${title}</span>
-          </div>
-          
-          <div class="anime-hero-inner">
-            <div class="anime-poster-col">
-              <div class="anime-poster-wrapper">
-                <img src="${d.poster || '/img/placeholder.svg'}" alt="${title}" onerror="this.src='/img/placeholder.svg'"/>
-                ${scoreVal ? `
-                  <div class="anime-score-float">
-                    <i data-lucide="star"></i>
-                    <span>${scoreVal}</span>
-                  </div>` : ''}
-              </div>
+          <div class="detail-hero-inner">
+            <div class="detail-poster">
+              <img src="${d.poster || '/img/placeholder.svg'}" alt="${title}" onerror="this.src='/img/placeholder.svg'"/>
             </div>
 
-            <div class="anime-info-col">
-              <span class="anime-hero-category">${d.type || 'Anime'}</span>
-              <h1 class="anime-hero-title">${title}</h1>
+            <div class="detail-info">
+              <h1 class="detail-title">${title}</h1>
+              ${d.english ? `<div class="detail-alt-title">${d.english}</div>` : ''}
               
-              <div class="anime-hero-meta">
-                <div class="hero-meta-item"><i data-lucide="calendar"></i> ${d.season || '-'}</div>
-                <div class="hero-meta-item"><i data-lucide="clock"></i> ${d.duration || '-'}</div>
-                <div class="hero-meta-item"><i data-lucide="layers"></i> ${d.episodes || '?'} Eps</div>
-                <div class="hero-meta-item"><i data-lucide="activity"></i> ${d.status || '-'}</div>
+              <div class="detail-badges">
+                ${d.type ? `<span class="badge badge-accent">${d.type}</span>` : ''}
+                ${d.status ? `<span class="badge">${d.status}</span>` : ''}
+                ${scoreVal ? `<span class="badge">⭐ ${scoreVal}</span>` : ''}
+                ${d.episodes ? `<span class="badge">${d.episodes} Eps</span>` : ''}
               </div>
 
-              <div class="anime-synopsis-box">
-                <div class="synopsis-title"><i data-lucide="align-left" style="width:18px;height:18px;"></i> SINOPSIS</div>
-                <div class="anime-synopsis">
+              <div class="detail-synopsis">
+                <div class="detail-synopsis-inner" id="synopsisInner">
                   ${synHTML || '<p>Tidak ada sinopsis.</p>'}
                 </div>
-                ${connections.length ? `
-                <div style="margin-top:1rem">
-                  <div style="font-size:.8rem;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem">Tonton Juga</div>
-                  <div style="display:flex;flex-direction:column;gap:.35rem">
-                    ${connections.map(c => `
-                      <a href="/anime?slug=${c.animeId}"
-                         style="font-size:.85rem;color:#64b5f6;text-decoration:none;transition:.2s;display:flex;align-items:center;gap:.4rem"
-                         onmouseover="this.style.color='#90caf9'" onmouseout="this.style.color='#64b5f6'">
-                        <svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor"><polygon points="2,1 11,6 2,11"/></svg>
-                        ${c.title}
-                      </a>`).join('')}
-                  </div>
-                </div>` : ''}
+                <button class="synopsis-toggle" id="synopsisToggle" onclick="toggleSynopsis()">
+                  <span id="synopsisLabel">Baca Selengkapnya</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
               </div>
 
-              ${genreTags ? `<div class="anime-genre-tags">${genreTags}</div>` : ''}
-              
-              <div class="anime-actions">
-                <button class="action-btn" id="favoriteBtn" onclick="handleFavorite()">
-                  <i data-lucide="heart"></i>
+              ${connections.length ? `
+              <div class="detail-connections">
+                <div class="detail-connections-title">Tonton Juga</div>
+                <div class="detail-conn-list">
+                  ${connections.map(c => `
+                    <a class="detail-conn-link" href="/anime?slug=${c.animeId}">
+                      <svg width="10" height="10" viewBox="0 0 12 12" fill="currentColor"><polygon points="2,1 11,6 2,11"/></svg>
+                      ${c.title}
+                    </a>`).join('')}
+                </div>
+              </div>` : ''}
+
+              ${genreTags ? `<div class="genre-grid">${genreTags}</div>` : ''}
+
+              <div class="detail-actions">
+                <button class="detail-action-btn" id="favoriteBtn" onclick="handleFavorite()">
                   <span id="favoriteBtnText">Tambah ke Favorit</span>
                 </button>
               </div>
@@ -568,44 +232,70 @@
         </div>`;
 
       document.getElementById('mainContent').style.display = '';
+      initSynopsisToggle();
 
-      /*  Detail Grid  */
-      const infoItems = [
-        ['Japanese',      d.japanese],
-        ['English',       d.english],
-        ['Status',        d.status],
-        ['Type',          d.type],
-        ['Source',        d.source],
-        ['Duration',      d.duration],
-        ['Episodes', d.episodes],
-        ['Season',        d.season],
-        ['Studio',        d.studios],
-        ['Producers',     d.producers],
-        ['Aired',         d.aired],
-        ['Score',         scoreVal ? `${scoreVal} (${scoreUsers})` : '-'],
-      ].filter(([, v]) => v != null && String(v).trim() !== '' && v !== 'null');
+      /*  Info panel sidebar  */
+      function infoCell(label, value) {
+        if (value == null || String(value).trim() === '' || value === 'null') return '';
+        const isStatus = label === 'Status';
+        return `
+          <div class="info-panel-cell">
+            <div class="info-panel-label">${label}</div>
+            <div class="info-panel-value${isStatus ? ' is-ongoing' : ''}">${value}</div>
+          </div>`;
+      }
 
-      document.getElementById('infoGrid').innerHTML = infoItems.map(([lbl, val]) => `
-        <div class="info-item">
-          <div class="info-label">${lbl}</div>
-          <div class="info-value">${val}</div>
-        </div>
-      `).join('');
+      const infoPairs = [
+        ['Status',    d.status],
+        ['Type',      d.type],
+        ['Source',    d.source],
+        ['Duration',  d.duration],
+        ['Season',    d.season],
+        ['Studio',    d.studios],
+        ['Producers', d.producers],
+        ['Aired',     d.aired],
+      ];
+
+      let infoCells = infoCell('Japanese', d.japanese)
+                    + infoCell('English',  d.english);
+      if (d.episodes) infoCells += infoCell('Episodes', d.episodes);
+      infoPairs.forEach(([lbl, val]) => { infoCells += infoCell(lbl, val); });
+
+      document.getElementById('infoGrid').innerHTML =
+        `<div class="info-panel-grid">${infoCells}</div>`;
+
+      const scoreEl = document.getElementById('infoScore');
+      if (scoreVal) {
+        const filled = Math.min(5, Math.round(parseFloat(scoreVal) / 2));
+        scoreEl.style.display = '';
+        scoreEl.innerHTML = `
+          <div class="info-panel-score-top">
+            <span class="info-panel-score-label">Score</span>
+            ${scoreUsers ? `<span class="info-panel-score-users">(${scoreUsers})</span>` : ''}
+          </div>
+          <div class="info-panel-stars">
+            ${[1,2,3,4,5].map(i => `<span class="${i <= filled ? 'filled' : ''}">★</span>`).join('')}
+          </div>
+          <div class="info-panel-score-num">${scoreVal}</div>`;
+      } else {
+        scoreEl.style.display = 'none';
+      }
 
       /*  Batch  */
+      const BATCH_BOX_ICON = `<svg viewBox="0 0 24 24"><path d="M3 7v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-6l-2-2H5a2 2 0 0 0-2 2z"/></svg>`;
+      const BATCH_ARROW_ICON = `<svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>`;
+
       const batches = d.batchList || [];
       if (batches.length) {
         document.getElementById('batchSection').style.display = '';
         document.getElementById('batchList').innerHTML = batches.map(b => `
-          <div class="batch-card" onclick="window.location.href='/batch-detail?slug=${b.animeId || slug}'">
-            <div class="batch-info">
-              <div class="batch-icon"><i data-lucide="package"></i></div>
-              <div class="batch-text">
-                <h4>${b.title || 'Batch Download'}</h4>
-                <p>Klik untuk melihat daftar link download</p>
-              </div>
+          <div class="sidebar-anime-item" onclick="window.location.href='/batch-detail?slug=${b.animeId || slug}'">
+            <div class="sidebar-anime-thumb">${BATCH_BOX_ICON}</div>
+            <div class="sidebar-anime-info">
+              <div class="sidebar-anime-title">${b.title || 'Batch Download'}</div>
+              <div class="sidebar-anime-ep">Lihat semua link</div>
             </div>
-            <i data-lucide="chevron-right"></i>
+            <span class="batch-arrow">${BATCH_ARROW_ICON}</span>
           </div>`).join('');
       }
 
@@ -616,35 +306,30 @@
 
         // Search bar
         document.getElementById('epGrid').insertAdjacentHTML('beforebegin', `
-          <div style="margin-bottom:1rem;position:relative">
-            <input id="epSearch" type="text" placeholder="Cari episode..."
-              style="width:100%;background:var(--bg-card);border:1px solid var(--border);
-                     border-radius:8px;padding:.55rem 1rem .55rem 2.5rem;
-                     color:var(--text-primary);font-size:.88rem;outline:none;
-                     transition:.2s;font-family:inherit"
-              oninput="filterEpisodes(this.value)"
-              onfocus="this.style.borderColor='var(--accent)'"
-              onblur="this.style.borderColor='var(--border)'"/>
-            <svg style="position:absolute;left:.75rem;top:50%;transform:translateY(-50%);
-                        color:var(--text-muted);pointer-events:none"
-                 width="15" height="15" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
+          <div class="ep-search-wrap">
+            <input id="epSearch" class="detail-ep-search" type="text" placeholder="Cari episode..."
+              oninput="filterEpisodes(this.value)"/>
+            <button class="ep-search-btn" aria-label="Cari">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </button>
           </div>`);
 
         // Render semua episode
         const renderEps = (list) => {
           document.getElementById('epGrid').innerHTML = list.length
-            ? list.map(e => {
+            ? `<div class="ep-list">${list.map(e => {
                 const epTitle = String(e.title || '');
                 const epNum   = epTitle.match(/Episode\s+(\d+)/i)?.[1] || epTitle;
                 return `
                   <div class="ep-btn" onclick="goEpisode('${e.episodeId || ''}')">
-                    <span>Episode</span>${epNum}
+                    ${epNum}
                   </div>`;
-              }).join('')
-            : `<div style="color:var(--text-muted);font-size:.85rem;grid-column:1/-1;padding:.5rem">
+              }).join('')}</div>`
+            : `<div style="color:var(--color-secondary);font-size:.85rem;padding:.5rem;font-family:var(--font-mono);">
                  Tidak ada episode yang cocok
                </div>`;
         };
@@ -663,8 +348,6 @@
           renderEps(filtered);
         };
       }
-
-      lucide.createIcons();
 
       // Update favorite button
       updateActionButtons();
@@ -722,13 +405,14 @@
       position: fixed;
       bottom: 2rem;
       right: 2rem;
-      background: var(--accent);
-      color: #fff;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      background: var(--color-primary);
+      color: var(--color-black);
+      padding: var(--space-4) var(--space-6);
+      border: var(--border-thick) solid var(--color-border);
+      box-shadow: var(--shadow-xl);
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 700;
       z-index: 9999;
       animation: slideIn 0.3s ease;
     `;
@@ -758,13 +442,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-

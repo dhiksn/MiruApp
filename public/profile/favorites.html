@@ -1,270 +1,417 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MiruApp — Favorit</title>
-  <link rel="stylesheet" href="/css/style.css" />
-  <link rel="icon" type="image/x-icon" href="/icon/favicon.ico" />
-  <style>
-    .favorites-container {
-      max-width: 1280px;
-      margin: 2rem auto;
-      padding: 0 1.5rem;
-    }
-    .favorites-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-    }
-    .favorites-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--text-primary);
-    }
-    .favorites-count {
-      font-size: .85rem;
-      color: var(--text-muted);
-      margin-left: .75rem;
-    }
-    .clear-btn {
-      background: rgba(230,57,70,.15);
-      border: 1px solid rgba(230,57,70,.3);
-      color: #ff6b6b;
-      padding: .5rem 1rem;
-      border-radius: 8px;
-      font-size: .85rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .clear-btn:hover {
-      background: rgba(230,57,70,.25);
-      border-color: rgba(230,57,70,.5);
-    }
-    .favorites-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 1rem;
-    }
-    .favorite-card {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid var(--border);
-      transition: transform var(--transition), box-shadow var(--transition);
-      cursor: pointer;
-      position: relative;
-    }
-    .favorite-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow);
-      border-color: var(--accent);
-    }
-    .favorite-card-thumb {
-      position: relative;
-      aspect-ratio: 2/3;
-      overflow: hidden;
-      background: var(--bg-secondary);
-    }
-    .favorite-card-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .3s ease;
-    }
-    .favorite-card:hover .favorite-card-thumb img {
-      transform: scale(1.05);
-    }
-    .favorite-badge {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      background: rgba(0,0,0,.7);
-      backdrop-filter: blur(4px);
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      z-index: 2;
-    }
-    .remove-btn {
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      background: rgba(230,57,70,.9);
-      backdrop-filter: blur(4px);
-      border: none;
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity .2s;
-      z-index: 2;
-      font-size: .9rem;
-    }
-    .favorite-card:hover .remove-btn {
-      opacity: 1;
-    }
-    .favorite-card-info {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 2.5rem .7rem .7rem;
-      background: linear-gradient(to top, rgba(0,0,0,.85) 50%, transparent);
-    }
-    .favorite-card-title {
-      font-size: .8rem;
-      font-weight: 700;
-      color: #fff;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      line-height: 1.4;
-    }
-    .favorite-card-meta {
-      margin-top: .35rem;
-      font-size: .7rem;
-      color: rgba(255,255,255,.6);
-    }
-    .empty-state {
-      text-align: center;
-      padding: 4rem 1rem;
-      color: var(--text-muted);
-    }
-    .empty-state .icon {
-      font-size: 4rem;
-      margin-bottom: 1rem;
-      opacity: .5;
-    }
-    .empty-state h3 {
-      font-size: 1.2rem;
-      color: var(--text-primary);
-      margin-bottom: .5rem;
-    }
-  </style>
-</head>
-<body>
-  <nav class="navbar">
-    <a class="navbar-brand" href="/"> <span>MiruApp</span></a>
-    <ul class="navbar-nav">
-      <li><a href="/">Home</a></li>
-      <li><a href="/ongoing">Ongoing</a></li>
-      <li><a href="/movies">Movies</a></li>
-      <li><a href="/schedule">Jadwal</a></li>
-      <li><a href="/batch">Batch</a></li>
-      <li><a href="/daftar-anime">Daftar Anime</a></li>
-    </ul>
-    <div style="display:flex;align-items:center;gap:.75rem">
-      <div class="navbar-search">
-        <input type="text" id="navSearch" placeholder="Cari anime..." />
-        <button onclick="doNavSearch()">Cari</button>
-      </div>
-      <div id="navAuth"></div>
-    </div>
-  </nav>
-
-  <div class="favorites-container">
-    <div class="favorites-header">
-      <div>
-        <span class="favorites-title">❤️ Favorit</span>
-        <span class="favorites-count" id="favCount">0 anime</span>
-      </div>
-      <button class="clear-btn" onclick="clearFavorites()">Hapus Semua</button>
-    </div>
-
-    <div id="favoritesGrid" class="favorites-grid">
-      <div class="loading-overlay">
-        <div class="spinner"></div>
-        <span>Memuat favorit...</span>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <p>MiruApp Wrapper &copy; 2024  Data dari <a href="#">MiruApp</a></p>
-  </footer>
-
-  <script src="/js/helpers.js"></script>
-  <script src="/js/auth.js"></script>
-  <script>
-    initNavSearch();
-    renderAuthNav();
-
-    // Redirect jika belum login
-    if (!Auth.isLoggedIn()) window.location.href = '/login';
-
-    async function loadFavorites() {
-      const gridEl  = document.getElementById('favoritesGrid');
-      const countEl = document.getElementById('favCount');
-      gridEl.innerHTML = '<div class="loading-overlay" style="grid-column:1/-1"><div class="spinner"></div><span>Memuat favorit...</span></div>';
-
-      try {
-        const res  = await authFetch('/api/user/favorites');
-        const json = await res.json();
-
-        if (!json.success) throw new Error(json.message);
-
-        const favorites = json.data || [];
-        countEl.textContent = `${favorites.length} anime`;
-
-        if (!favorites.length) {
-          gridEl.innerHTML = `
-            <div class="empty-state" style="grid-column:1/-1">
-              <div class="icon">💔</div>
-              <h3>Belum Ada Favorit</h3>
-              <p>Tambahkan anime favorit untuk melihatnya di sini</p>
-            </div>`;
-          return;
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MiruApp — Favorit</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="icon" type="image/x-icon" href="/icon/favicon.ico" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;900&family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@800&display=swap" rel="stylesheet">
+    
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        gridEl.innerHTML = favorites.map(anime => {
-          const slug = encodeURIComponent(anime.video_slug);
-          return `
-            <div class="favorite-card" onclick="window.location.href='/anime?slug=${anime.video_slug}'">
-              <div class="favorite-card-thumb">
-                <img src="${anime.video_cover_url || '/img/placeholder.svg'}"
-                     alt="${anime.video_title || ''}"
-                     loading="lazy"
-                     onerror="this.src='/img/placeholder.svg'"/>
-                <button class="remove-btn"
-                  onclick="event.stopPropagation(); removeFavorite('${slug}')"
-                  title="Hapus dari favorit">✕</button>
-                <span class="favorite-badge">❤️</span>
-                <div class="favorite-card-info">
-                  <div class="favorite-card-title">${anime.video_title || anime.video_slug}</div>
-                </div>
-              </div>
-            </div>`;
-        }).join('');
+        body {
+            font-family: 'Archivo', sans-serif;
+            background: #fff;
+            min-height: 100vh;
+        }
 
-      } catch (err) {
-        gridEl.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="icon">⚠️</div><h3>Gagal memuat</h3><p>${err.message}</p></div>`;
-      }
-    }
+        .main-container {
+            width: 100%;
+            padding: 1.5rem;
+        }
 
-    async function removeFavorite(slug) {
-      await authFetch(`/api/user/favorites/${slug}`, { method: 'DELETE' });
-      loadFavorites();
-    }
+        /* Header Row */
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
 
-    async function clearFavorites() {
-      if (!confirm('Hapus semua anime dari favorit?')) return;
-      await authFetch('/api/user/favorites', { method: 'DELETE' });
-      loadFavorites();
-    }
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
 
-    loadFavorites();
-  </script>
+        .header-title i {
+            font-size: 1.75rem;
+            color: #1a1a1a;
+        }
+
+        .header-title h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 2rem;
+            text-transform: uppercase;
+            color: #1a1a1a;
+        }
+
+        .clear-all-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #FF3B00;
+            border: 2.5px solid #1a1a1a;
+            box-shadow: 3px 3px 0px #1a1a1a;
+            padding: 0.75rem 1.25rem;
+            color: #fff;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.12s ease, box-shadow 0.12s ease;
+        }
+
+        .clear-all-btn:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 5px 5px 0px #1a1a1a;
+        }
+
+        .clear-all-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px #1a1a1a;
+        }
+
+        /* Anime Card Grid */
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Anime Card */
+        .anime-card {
+            background: #fff;
+            border: 2.5px solid #1a1a1a;
+            box-shadow: 4px 4px 0px #1a1a1a;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .anime-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #1a1a1a;
+        }
+
+        /* Poster Area */
+        .poster-area {
+            position: relative;
+            aspect-ratio: 2/3;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .poster-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .poster-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e0e0e0;
+        }
+
+        .poster-placeholder i {
+            font-size: 3rem;
+            color: #1a1a1a;
+            opacity: 0.5;
+        }
+
+        /* Delete Button */
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            background: #FF3B00;
+            border: 2px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 3;
+            transition: transform 0.12s ease;
+        }
+
+        .delete-btn:hover {
+            transform: scale(1.15);
+        }
+
+        .delete-btn i {
+            color: #fff;
+            font-size: 1.25rem;
+        }
+
+        /* Favorite Badge */
+        .favorite-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 36px;
+            height: 36px;
+            background: #FFE500;
+            border: 2px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+        }
+
+        .favorite-badge i {
+            font-size: 1.25rem;
+            color: #FF3B00;
+        }
+
+        /* Info Section */
+        .info-section {
+            border-top: 2.5px solid #1a1a1a;
+            padding: 12px 14px;
+        }
+
+        .anime-title {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #1a1a1a;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.3;
+        }
+
+        /* Empty State & Loading */
+        .empty-state,
+        .loading-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 1rem;
+        }
+
+        .empty-state i,
+        .loading-state i {
+            font-size: 4rem;
+            color: #1a1a1a;
+            opacity: 0.5;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.9rem;
+            color: #1a1a1a;
+            opacity: 0.6;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #1a1a1a;
+            border-top-color: #FFE500;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="/">MIRUAPP</a>
+        <ul class="navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/ongoing">Ongoing</a></li>
+            <li><a href="/movies">Movies</a></li>
+            <li><a href="/schedule">Jadwal</a></li>
+            <li><a href="/batch">Batch</a></li>
+            <li><a href="/daftar-anime">Daftar Anime</a></li>
+        </ul>
+        <div class="navbar-right">
+            <button class="navbar-search-icon" id="searchBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+            <div id="navAuth"></div>
+        </div>
+    </nav>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-overlay" id="searchOverlay"></div>
+        <div class="search-modal-content">
+            <button class="search-modal-close" id="searchCloseBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="search-modal-input-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="modalSearch" placeholder="Cari anime...">
+                <button class="search-modal-submit" id="modalSearchSubmit">Cari</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="header-row">
+            <div class="header-title">
+                <i class="ti ti-heart"></i>
+                <h1>Favorit</h1>
+            </div>
+            <button class="clear-all-btn" onclick="clearFavorites()">
+                <i class="ti ti-trash"></i>
+                Hapus Semua
+            </button>
+        </div>
+
+        <div id="favoritesGrid" class="anime-grid">
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <p>Memuat favorit...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/helpers.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/search-modal.js"></script>
+    <script src="/js/modal.js"></script>
+    <script>
+        initNavSearch();
+        renderAuthNav();
+
+        // Redirect jika belum login
+        if (!Auth.isLoggedIn()) window.location.href = '/login';
+
+        async function loadFavorites() {
+            const gridEl  = document.getElementById('favoritesGrid');
+            gridEl.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Memuat favorit...</p></div>';
+
+            try {
+                const res  = await authFetch('/api/user/favorites');
+                const json = await res.json();
+
+                if (!json.success) throw new Error(json.message);
+
+                const favorites = json.data || [];
+
+                if (!favorites.length) {
+                    gridEl.innerHTML = `
+                        <div class="empty-state">
+                            <i class="ti ti-heart-off"></i>
+                            <h3>Belum Ada Favorit</h3>
+                            <p>Tambahkan anime favorit untuk melihatnya di sini</p>
+                        </div>`;
+                    return;
+                }
+
+                gridEl.innerHTML = favorites.map(anime => {
+                    return `
+                        <div class="anime-card" onclick="window.location.href='/anime?slug=${anime.video_slug}'">
+                            <div class="poster-area">
+                                ${anime.video_cover_url 
+                                    ? `<img src="${anime.video_cover_url}" alt="${anime.video_title || ''}" onerror="this.parentElement.innerHTML='<div class=\\'poster-placeholder\\'><i class=\\'ti ti-tv\\'></i></div>'"/>`
+                                    : `<div class="poster-placeholder"><i class="ti ti-tv"></i></div>`
+                                }
+                                
+                                <button class="delete-btn" onclick="event.stopPropagation(); removeFavorite('${encodeURIComponent(anime.video_slug)}')">
+                                    <i class="ti ti-x"></i>
+                                </button>
+
+                                <div class="favorite-badge">
+                                    <i class="ti ti-heart-filled"></i>
+                                </div>
+                            </div>
+                            <div class="info-section">
+                                <div class="anime-title">${anime.video_title || anime.video_slug}</div>
+                            </div>
+                        </div>`;
+                }).join('');
+
+            } catch (err) {
+                gridEl.innerHTML = `
+                    <div class="empty-state">
+                        <i class="ti ti-alert-triangle"></i>
+                        <h3>Gagal Memuat</h3>
+                        <p>${err.message}</p>
+                    </div>`;
+            }
+        }
+
+        async function removeFavorite(slug) {
+            openConfirmModal({
+                topBarLabel: "KONFIRMASI HAPUS",
+                title: "Hapus",
+                titleHighlight: "Favorit",
+                description: "Anime ini akan dihapus permanen dari daftar favoritmu. Aksi ini tidak bisa dibatalkan.",
+                cancelText: "BATAL",
+                confirmText: "YA HAPUS",
+                onConfirm: async () => {
+                    await authFetch(`/api/user/favorites/${slug}`, { method: 'DELETE' });
+                    loadFavorites();
+                }
+            });
+        }
+
+        async function clearFavorites() {
+            openConfirmModal({
+                topBarLabel: "KONFIRMASI HAPUS",
+                title: "Hapus",
+                titleHighlight: "Semua Favorit",
+                description: "Semua anime di daftar favoritmu akan dihapus permanen. Aksi ini tidak bisa dibatalkan.",
+                cancelText: "BATAL",
+                confirmText: "YA HAPUS",
+                onConfirm: async () => {
+                    await authFetch('/api/user/favorites', { method: 'DELETE' });
+                    loadFavorites();
+                }
+            });
+        }
+
+        loadFavorites();
+    </script>
 </body>
 </html>

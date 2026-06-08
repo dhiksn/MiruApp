@@ -12,75 +12,91 @@
   <link rel="manifest" href="/icon/site.webmanifest" />
   <style>
     .error-page {
-      min-height: calc(100vh - 60px);
+      min-height: calc(100vh - 70px);
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 2rem;
+      padding: var(--space-8) var(--space-4);
     }
     .error-content {
-      max-width: 500px;
+      max-width: 520px;
     }
     .error-code {
-      font-size: 8rem;
+      font-family: var(--font-display);
+      font-size: 6rem;
       font-weight: 900;
       line-height: 1;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 1rem;
+      color: var(--color-primary);
+      margin-bottom: var(--space-4);
+      text-transform: uppercase;
+      text-shadow: 4px 4px 0px var(--color-border);
     }
     .error-title {
-      font-size: 1.8rem;
-      font-weight: 800;
-      margin-bottom: .75rem;
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 900;
+      margin-bottom: var(--space-4);
+      text-transform: uppercase;
+      color: var(--color-black);
     }
     .error-desc {
-      font-size: .95rem;
-      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: var(--text-base);
+      color: var(--color-secondary);
       line-height: 1.7;
-      margin-bottom: 2rem;
+      margin-bottom: var(--space-8);
     }
     .error-actions {
       display: flex;
-      gap: .75rem;
+      gap: var(--space-4);
       justify-content: center;
       flex-wrap: wrap;
     }
     .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      padding: .65rem 1.5rem;
-      border-radius: 30px;
+      background: var(--color-primary);
+      color: var(--color-black);
+      padding: var(--space-4) var(--space-6);
+      border: var(--border-thick) solid var(--color-border);
+      box-shadow: var(--shadow-md);
+      font-family: var(--font-mono);
       font-weight: 700;
-      font-size: .9rem;
+      font-size: var(--text-sm);
+      text-transform: uppercase;
       text-decoration: none;
-      transition: var(--transition);
+      transition: transform var(--duration-fast) var(--ease-snap), box-shadow var(--duration-fast) var(--ease-snap);
       display: inline-flex;
       align-items: center;
-      gap: .5rem;
+      gap: var(--space-3);
     }
-    .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); }
+    .btn-primary:hover {
+      transform: translate(2px, 2px);
+      box-shadow: var(--shadow-sm);
+    }
     .btn-secondary {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      color: var(--text-primary);
-      padding: .65rem 1.5rem;
-      border-radius: 30px;
+      background: var(--color-white);
+      border: var(--border-thick) solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      color: var(--color-black);
+      padding: var(--space-4) var(--space-6);
+      font-family: var(--font-mono);
       font-weight: 700;
-      font-size: .9rem;
+      font-size: var(--text-sm);
+      text-transform: uppercase;
       text-decoration: none;
-      transition: var(--transition);
+      transition: transform var(--duration-fast) var(--ease-snap), box-shadow var(--duration-fast) var(--ease-snap), background var(--duration-fast) var(--ease-snap);
     }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-secondary:hover {
+      background: var(--color-tertiary);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-md);
+    }
   </style>
 </head>
 <body>
 
 <nav class="navbar">
-  <a class="navbar-brand" href="/"> <span>MiruApp</span></a>
+  <a class="navbar-brand" href="/">MIRUAPP</a>
   <ul class="navbar-nav">
     <li><a href="/">Home</a></li>
     <li><a href="/ongoing">Ongoing</a></li>
@@ -89,11 +105,37 @@
     <li><a href="/batch">Batch</a></li>
     <li><a href="/daftar-anime">Daftar Anime</a></li>
   </ul>
-  <div class="navbar-search">
-    <input type="text" id="navSearch" placeholder="Cari anime..." />
-    <button onclick="doNavSearch()">Cari</button>
+  <div class="navbar-right">
+    <button class="navbar-search-icon" id="searchBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+    <div id="navAuth"></div>
   </div>
 </nav>
+
+<!-- Search Modal -->
+<div class="search-modal" id="searchModal">
+  <div class="search-modal-overlay" id="searchOverlay"></div>
+  <div class="search-modal-content">
+    <button class="search-modal-close" id="searchCloseBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="search-modal-input-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="modalSearch" placeholder="Cari anime...">
+      <button class="search-modal-submit" id="modalSearchSubmit">Cari</button>
+    </div>
+  </div>
+</div>
 
 <div class="error-page">
   <div class="error-content">
@@ -104,20 +146,18 @@
       Coba cek URL atau kembali ke halaman utama.
     </p>
     <div class="error-actions">
-      <a href="/" class="btn-primary"> Kembali ke Home</a>
+      <a href="/" class="btn-primary">Kembali ke Home</a>
       <a href="/daftar-anime" class="btn-secondary">Lihat Daftar Anime</a>
     </div>
   </div>
 </div>
 
 <script src="/js/helpers.js"></script>
-<script>initNavSearch();</script>
+<script src="/js/auth.js"></script>
+<script src="/js/search-modal.js"></script>
+<script>
+  initNavSearch();
+  renderAuthNav();
+</script>
 </body>
 </html>
-
-
-
-
-
-
-

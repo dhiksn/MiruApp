@@ -14,19 +14,46 @@
 <body>
 
 <nav class="navbar">
-  <a class="navbar-brand" href="/"> <span>MiruApp</span></a>
+  <a class="navbar-brand" href="/">MIRUAPP</a>
   <ul class="navbar-nav">
     <li><a href="/">Home</a></li>
     <li><a href="/ongoing">Ongoing</a></li>
     <li><a href="/movies">Movies</a></li>
     <li><a href="/schedule">Jadwal</a></li>
-    <li><a href="/batch">Batch</a></li><li><a href="/daftar-anime">Daftar Anime</a></li>
+    <li><a href="/batch">Batch</a></li>
+    <li><a href="/daftar-anime">Daftar Anime</a></li>
   </ul>
-  <div class="navbar-search">
-    <input type="text" id="navSearch" placeholder="Cari anime..." />
-    <button onclick="doNavSearch()">Cari</button>
+  <div class="navbar-right">
+    <button class="navbar-search-icon" id="searchBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+    <div id="navAuth"></div>
   </div>
 </nav>
+
+<!-- Search Modal -->
+<div class="search-modal" id="searchModal">
+  <div class="search-modal-overlay" id="searchOverlay"></div>
+  <div class="search-modal-content">
+    <button class="search-modal-close" id="searchCloseBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="search-modal-input-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="modalSearch" placeholder="Cari anime...">
+      <button class="search-modal-submit" id="modalSearchSubmit">Cari</button>
+    </div>
+  </div>
+</div>
 
 <div class="page-header">
   <h1>Cari <span>Anime</span></h1>
@@ -45,11 +72,14 @@
   </section>
 </div>
 
-<footer><p>MiruApp Wrapper &copy; 2024</p></footer>
+<footer><p>MiruApp Wrapper &amp; UI &copy; 2024</p></footer>
 
 <script src="/js/helpers.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/search-modal.js"></script>
 <script>
   initNavSearch();
+  renderAuthNav();
   let currentQuery = '';
 
   document.getElementById('searchInput').addEventListener('keydown', e => {
@@ -76,7 +106,11 @@
       grid.innerHTML = list.length
         ? list.map(animeCard).join('')
         : emptyHTML('', 'Tidak ditemukan  coba kata kunci lain');
-      renderPagination('pagination', page, list.length >= 10, 'doSearch');
+      let hasNext = list.length >= 10;
+      if (hasNext) {
+        hasNext = await checkHasNext(`${API}/api/search`, page, (j) => j.data?.animeList || [], { q });
+      }
+      renderPagination('pagination', page, hasNext, 'doSearch');
     } catch (err) {
       grid.innerHTML = errorHTML(err.message);
     }
@@ -86,7 +120,8 @@
   const q = params.get('q');
   if (q) {
     document.getElementById('searchInput').value = q;
-    document.getElementById('navSearch').value   = q;
+    const navSearch = document.getElementById('navSearch');
+    if (navSearch) navSearch.value = q;
     doSearch(parseInt(params.get('page')) || 1);
   }
 </script>

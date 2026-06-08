@@ -10,38 +10,24 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png" />
   <link rel="apple-touch-icon" href="/icon/apple-touch-icon.png" />
   <link rel="manifest" href="/icon/site.webmanifest" />
-  <!-- Font: Outfit -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Icons: Lucide -->
-  <script src="https://unpkg.com/lucide@latest"></script>
   <!-- ArtPlayer -->
   <script src="https://cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
   <!-- HLS.js for m3u8 -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
   <style>
-    :root {
-      --font-main: 'Outfit', sans-serif;
-    }
-    body {
-      font-family: var(--font-main);
-      background: #0a0a0f;
-    }
-
-    /*  PLAYER & LAYOUT  */
     .watch-layout {
       display: grid;
       grid-template-columns: 1fr 340px;
-      gap: 2rem;
-      padding: 2rem 0;
+      gap: var(--space-8);
+      padding: var(--space-4) 0 var(--space-8) 0;
     }
     .player-container {
-      border-radius: 16px;
+      border: var(--border-thick) solid var(--color-border);
+      box-shadow: var(--shadow-xl);
       overflow: hidden;
       aspect-ratio: 16/9;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-      border: 1px solid var(--border);
       position: relative;
-      background: #000;
+      background: var(--color-black);
     }
     #artplayer-app {
       width: 100%;
@@ -51,232 +37,312 @@
       width: 100%; height: 100%;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      gap: .75rem; color: var(--text-muted);
-      font-size: .9rem;
+      gap: var(--space-4); color: var(--color-white);
+      font-size: var(--text-base);
+      font-family: var(--font-mono);
     }
 
-    /*  EP TITLE  */
-    .ep-header {
-      margin-bottom: 1.5rem;
+    /* SIDEBAR STYLES */
+    .sidebar-card {
+      background: var(--color-white);
+      border: 3px solid var(--color-border);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+    .sidebar-card-header {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--color-black);
+      background: var(--color-primary);
+      padding: .75rem 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 3px solid var(--color-border);
     }
     .ep-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: #fff;
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 900;
+      text-transform: uppercase;
+      color: var(--color-black);
       display: flex;
       align-items: baseline;
-      gap: 10px;
+      gap: var(--space-3);
     }
     .ep-title span {
-      font-size: 0.9rem;
-      color: var(--accent);
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    /*  SERVERS  */
-    .server-group {
-      background: var(--bg-secondary);
-      border-radius: 16px;
-      padding: 1.25rem;
-      margin-top: 1.5rem;
-      border: 1px solid var(--border);
-    }
-    .quality-tabs {
-      display: flex;
-      gap: .5rem;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-    .quality-tab {
-      padding: .35rem .9rem;
-      border-radius: 20px;
-      font-size: .78rem;
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--color-secondary);
       font-weight: 700;
-      border: 1px solid var(--border);
-      background: var(--bg-card);
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
-    .quality-tab:hover { border-color: var(--accent); color: var(--text-primary); }
-    .quality-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-    .quality-servers { display: none; }
-    .quality-servers.active { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .server-group {
+      background: var(--color-white);
+      border: 3px solid var(--color-border);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      margin-top: var(--space-6);
+    }
 
     .server-quality-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin-bottom: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 900;
+      color: #FFE500;
+      background: var(--color-black);
+      padding: .75rem 1rem;
       text-transform: uppercase;
-    }
-    .server-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
-    .server-btn {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 0.5rem 1.2rem;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .server-btn:hover, .server-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+      letter-spacing: 0.06em;
     }
 
-    /*  NAV BUTTONS  */
+    .quality-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      border-top: 3px solid var(--color-border);
+      border-bottom: 3px solid var(--color-border);
+      background: var(--color-muted);
+    }
+
+    .quality-tab {
+      padding: .625rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      border: none;
+      border-right: 3px solid var(--color-border);
+      background: transparent;
+      color: var(--color-black);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-snap);
+      box-shadow: none;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transform: none !important;
+    }
+
+    .quality-tab:last-child { border-right: none; }
+    .quality-tab:hover { background: var(--color-white); }
+
+    .quality-tab.active {
+      background: var(--color-primary);
+      color: var(--color-black);
+      box-shadow: none;
+      transform: none !important;
+    }
+
+    .quality-servers {
+      display: none;
+      padding: 1rem;
+      border-top: none;
+    }
+
+    .quality-servers.active {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    .server-btn {
+      background: var(--color-white);
+      border: 3px solid var(--color-border);
+      box-shadow: 3px 3px 0 var(--color-border);
+      padding: .625rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform var(--duration-fast) var(--ease-snap),
+                  box-shadow var(--duration-fast) var(--ease-snap),
+                  background var(--duration-fast) var(--ease-snap);
+      color: var(--color-black);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .server-btn:hover {
+      background: var(--color-primary);
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0 var(--color-border);
+    }
+
+    .server-btn.active {
+      background: var(--color-black);
+      color: var(--color-primary);
+      transform: translate(2px, 2px);
+      box-shadow: none;
+    }
     .ep-nav-wrap {
       display: flex;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
+      gap: var(--space-4);
+      margin-top: var(--space-6);
     }
     .nav-btn {
       flex: 1;
-      padding: 0.75rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      padding: var(--space-4) var(--space-6);
+      background: var(--color-white);
+      border: var(--border-thick) solid var(--color-border);
+      box-shadow: var(--shadow-sm);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: var(--space-3);
+      font-family: var(--font-mono);
       font-weight: 700;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
+      font-size: var(--text-sm);
+      transition: transform var(--duration-fast) var(--ease-snap), box-shadow var(--duration-fast) var(--ease-snap), background var(--duration-fast) var(--ease-snap);
       cursor: pointer;
+      text-transform: uppercase;
     }
-    .nav-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(230, 57, 70, 0.05);
+    .nav-btn:hover { background: var(--color-primary); transform: translate(-2px, -2px); box-shadow: var(--shadow-md); }
+
+    .download-section {
+      margin-top: var(--space-8);
+      grid-column: 1 / -1;
     }
 
-    /*  DOWNLOAD  */
-    .download-section {
-      margin-top: 3rem;
-    }
     .download-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.25rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+      width: 100%;
     }
+
     .download-card {
-      background: var(--bg-secondary);
-      border-radius: 16px;
-      padding: 1.25rem;
-      border: 1px solid var(--border);
+      background: var(--color-white);
+      border: 3px solid var(--color-border);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
     }
+
     .download-card-title {
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 1rem;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 16px;
+      color: var(--color-primary);
+      background: var(--color-black);
+      padding: .75rem 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: var(--space-3);
+      border-bottom: 3px solid var(--color-border);
     }
+    .download-card-title svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      stroke: var(--color-primary);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .download-quality-item {
-      margin-top: 1rem;
+      padding: .875rem 1rem;
+      border-bottom: 2px solid #eee;
     }
+
+    .download-quality-item:last-child {
+      border-bottom: none;
+    }
+
     .quality-label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin-bottom: 0.5rem;
-      display: block;
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 900;
+      color: var(--color-black);
+      margin-bottom: var(--space-3);
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: var(--color-primary);
+      padding: var(--space-1) var(--space-3);
+      border: 2px solid var(--color-border);
     }
+
     .download-btn-group {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: var(--space-2);
     }
+
     .dl-btn {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 4px 12px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      transition: all 0.2s ease;
-      color: var(--text-primary);
+      background: var(--color-white);
+      border: 2px solid var(--color-border);
+      box-shadow: 2px 2px 0 var(--color-border);
+      padding: var(--space-2) var(--space-3);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: transform var(--duration-fast) var(--ease-snap),
+                  box-shadow var(--duration-fast) var(--ease-snap),
+                  background var(--duration-fast) var(--ease-snap);
+      color: var(--color-black);
+      text-decoration: none;
+      display: inline-block;
     }
+
     .dl-btn:hover {
-      border-color: var(--accent2);
-      color: var(--accent2);
+      background: var(--color-primary);
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--color-border);
     }
+
     .dl-btn.dead {
       text-decoration: line-through;
-      opacity: 0.4;
+      opacity: 0.35;
       pointer-events: none;
     }
 
-    /*  SIDEBAR  */
-    .sidebar-card {
-      background: var(--bg-secondary);
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-      position: sticky;
-      top: 80px;
-    }
-    .sidebar-header {
-      padding: 1.25rem;
-      background: rgba(255,255,255,0.03);
-      border-bottom: 1px solid var(--border);
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .sidebar-body {
-      padding: 1.25rem;
-    }
     .info-list {
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
     }
+
     .info-row-item {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 5px;
+      padding: .75rem 1rem;
+      border-bottom: 2px solid #eee;
     }
+
+    .info-row-item:last-child {
+      border-bottom: none;
+    }
+
     .info-row-lbl {
-      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      font-size: 9px;
       font-weight: 700;
-      color: var(--text-muted);
+      color: #aaa;
       text-transform: uppercase;
+      letter-spacing: 0.12em;
     }
+
     .info-row-val {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-black);
+      line-height: 1.45;
+      word-break: break-word;
     }
 
     @media (max-width: 1000px) {
       .watch-layout { grid-template-columns: 1fr; }
-      .sidebar-card { position: static; }
+      .download-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 600px) {
-      .ep-title { font-size: 1.2rem; flex-direction: column; gap: 4px; }
+      .ep-title { font-size: var(--text-xl); flex-direction: column; gap: var(--space-2); }
       .nav-btn span { display: none; }
     }
   </style>
@@ -284,34 +350,59 @@
 <body>
 
 <nav class="navbar">
-  <div class="container" style="display: flex; width: 100%; align-items: center; justify-content: space-between; padding: 0;">
-    <a class="navbar-brand" href="/"> <span>MiruApp</span></a>
-    <ul class="navbar-nav">
-      <li><a href="/">Home</a></li>
-      <li><a href="/ongoing">Ongoing</a></li>
-      <li><a href="/movies">Movies</a></li>
-      <li><a href="/schedule">Jadwal</a></li>
-      <li><a href="/batch">Batch</a></li><li><a href="/daftar-anime">Daftar Anime</a></li>
-    </ul>
-    <div class="navbar-search">
-      <input type="text" id="navSearch" placeholder="Cari anime..." />
-      <button onclick="doNavSearch()"><i data-lucide="search" style="width:16px;height:16px;"></i></button>
-    </div>
+  <a class="navbar-brand" href="/">MIRUAPP</a>
+  <ul class="navbar-nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/ongoing">Ongoing</a></li>
+    <li><a href="/movies">Movies</a></li>
+    <li><a href="/schedule">Jadwal</a></li>
+    <li><a href="/batch">Batch</a></li>
+    <li><a href="/daftar-anime">Daftar Anime</a></li>
+  </ul>
+  <div class="navbar-right">
+    <button class="navbar-search-icon" id="searchBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
     <div id="navAuth"></div>
   </div>
 </nav>
 
+<!-- Search Modal -->
+<div class="search-modal" id="searchModal">
+  <div class="search-modal-overlay" id="searchOverlay"></div>
+  <div class="search-modal-content">
+    <button class="search-modal-close" id="searchCloseBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="search-modal-input-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="modalSearch" placeholder="Cari anime...">
+      <button class="search-modal-submit" id="modalSearchSubmit">Cari</button>
+    </div>
+  </div>
+</div>
+
 <div class="container">
+  <!-- JUDUL EPISODE FULL WIDTH -->
+  <div class="ep-header" style="margin-top: var(--space-8); margin-bottom: var(--space-1);">
+    <h1 class="ep-title" id="epTitle"><span>Sabar Ya...</span> Memuat Episode...</h1>
+  </div>
+
   <div class="watch-layout">
     <!-- LEFT: PLAYER & CONTROLS -->
     <div class="watch-main">
-      <div class="ep-header">
-        <h1 class="ep-title" id="epTitle"><span>Sabar Ya...</span> Memuat Episode...</h1>
-      </div>
-
       <div class="player-container" id="playerWrap">
         <div class="player-placeholder">
-          <div class="spinner"></div>
+          <div class="spinner" style="border-color: var(--color-white); border-top-color: var(--color-primary);"></div>
           <span>Pilih server untuk mulai menonton</span>
         </div>
       </div>
@@ -321,34 +412,33 @@
 
       <!-- EP NAVIGATION -->
       <div class="ep-nav-wrap" id="epNav"></div>
-
-      <!-- DOWNLOADS -->
-      <div class="download-section" id="downloadSection" style="display: none;">
-        <div class="section-title"><i data-lucide="download-cloud"></i> Link Download</div>
-        <div class="download-grid" id="downloadLinks"></div>
-      </div>
     </div>
 
     <!-- RIGHT: SIDEBAR INFO -->
     <aside class="watch-sidebar">
       <div class="sidebar-card">
-        <div class="sidebar-header"><i data-lucide="play-circle"></i> Info Tayangan</div>
-        <div class="sidebar-body" id="epInfoSidebar">
-          <div class="loading-overlay" style="padding: 1rem;"><div class="spinner"></div></div>
+        <div class="sidebar-card-header">Info Tayangan</div>
+        <div class="sidebar-card-body" id="epInfoSidebar">
+          <div class="loading-overlay" style="padding: var(--space-4);"><div class="spinner"></div></div>
         </div>
       </div>
     </aside>
+
+    <!-- DOWNLOADS — full width -->
+    <div class="download-section" id="downloadSection" style="display: none;">
+      <div class="section-title">Link Download</div>
+      <div class="download-grid" id="downloadLinks"></div>
+    </div>
   </div>
 </div>
 
 <footer>
-  <div class="container">
-    <p>MiruApp Wrapper & UI &copy; 2024</p>
-  </div>
+  <p>MiruApp Wrapper & UI &copy; 2024</p>
 </footer>
 
 <script src="/js/helpers.js"></script>
 <script src="/js/auth.js"></script>
+<script src="/js/search-modal.js"></script>
 <script>
   initNavSearch();
   renderAuthNav();
@@ -356,13 +446,13 @@
   const slug   = params.get('slug') || '';
 
   function switchQuality(id, tab) {
-    // Sembunyikan semua server list
     document.querySelectorAll('.quality-servers').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.quality-tab').forEach(el => el.classList.remove('active'));
-    // Tampilkan yang dipilih
     document.getElementById(id)?.classList.add('active');
     tab.classList.add('active');
   }
+
+  const DL_ICON = `<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
 
   async function loadEpisode() {
     if (!slug) {
@@ -374,7 +464,6 @@
       const json = await res.json();
       const d    = json.data || {};
 
-      // Store episode data for history tracking
       currentEpisodeData = {
         episodeId: d.episodeId || slug,
         animeId: d.animeId,
@@ -384,19 +473,16 @@
         poster: d.poster || '/img/placeholder.svg'
       };
 
-      // Set global untuk updateWatchProgress
       window._currentVideoTitle = d.title || slug;
       window._currentVideoCover = d.poster || null;
 
       document.title = `${d.title || 'Episode'}  MiruApp`;
       document.getElementById('epTitle').innerHTML = `<span>Episode</span> ${d.title || slug}`;
 
-      /*  Server Selection  */
       const qualities = d.server?.qualities || [];
       const serverSec = document.getElementById('serverSection');
       const validQualities = qualities.filter(q => q.serverList?.length > 0);
 
-      // Ambil resume data dari DB jika sudah login
       let resumePosition = 0;
       let resumeServerId = null;
       if (Auth.isLoggedIn()) {
@@ -411,83 +497,118 @@
       }
 
       if (validQualities.length) {
-        // Tabs kualitas + server list per kualitas
-        const tabsHTML = validQualities.map((q, i) => `
-          <div class="quality-tab ${i === 0 ? 'active' : ''}"
-               onclick="switchQuality('q${i}', this)">
-            ${q.title.toUpperCase()}
-          </div>`).join('');
+        const lastChoice = getLastChoice();
 
-        const serversHTML = validQualities.map((q, i) => `
-          <div class="quality-servers ${i === 0 ? 'active' : ''}" id="q${i}">
-            ${q.serverList.map(s => `
-              <button class="server-btn" data-server-id="${s.serverId}" onclick="loadServerById('${s.serverId}', this, 0)">
-                <i data-lucide="play" style="width:14px;height:14px;"></i>
-                ${s.title}
-              </button>`).join('')}
-          </div>`).join('');
+        const tabsHTML = validQualities.map((q, i) => {
+          const qTitle = getQualityTitle(q, i);
+          return `
+            <div class="quality-tab ${(i === 0 && !lastChoice.quality) || (lastChoice.quality && qTitle.toLowerCase() === lastChoice.quality.toLowerCase()) ? 'active' : ''}"
+                 onclick="switchQuality('q${i}', this)">
+              ${qTitle.toUpperCase()}
+            </div>`;
+        }).join('');
+
+        const serversHTML = validQualities.map((q, i) => {
+          const qTitle = getQualityTitle(q, i);
+          return `
+            <div class="quality-servers ${(i === 0 && !lastChoice.quality) || (lastChoice.quality && qTitle.toLowerCase() === lastChoice.quality.toLowerCase()) ? 'active' : ''}" id="q${i}">
+              ${q.serverList.map(s => {
+                const sTitle = getServerTitle(s);
+                return `
+                  <button class="server-btn" data-server-id="${s.serverId}" 
+                          data-quality-title="${qTitle}"
+                          data-server-title="${sTitle}"
+                          onclick="loadServerById('${s.serverId}', this, 0)">
+                    ${sTitle}
+                  </button>`;
+              }).join('')}
+            </div>`;
+        }).join('');
 
         serverSec.innerHTML = `
           <div class="server-group">
-            <div class="server-quality-title"><i data-lucide="monitor"></i> Pilih Kualitas & Server</div>
+            <div class="server-quality-title">Pilih Kualitas & Server</div>
             <div class="quality-tabs">${tabsHTML}</div>
             ${serversHTML}
           </div>`;
 
-        // Auto-load: pakai server terakhir jika ada, atau server pertama
         const allServers = validQualities.flatMap(q => q.serverList || []);
-        const targetServer = resumeServerId
-          ? allServers.find(s => s.serverId === resumeServerId)
-          : null;
+        let targetServer = null;
 
-        if (targetServer) {
-          // Highlight tombol server yang sesuai
-          const targetBtn = serverSec.querySelector(`[data-server-id="${targetServer.serverId}"]`);
-          loadServerById(targetServer.serverId, targetBtn, resumePosition);
-        } else {
-          // Fallback ke server pertama
-          const firstServer = validQualities[0]?.serverList?.[0];
-          if (firstServer) {
-            const firstBtn = serverSec.querySelector('.server-btn');
-            loadServerById(firstServer.serverId, firstBtn, 0);
+        if (resumeServerId) {
+          targetServer = allServers.find(s => s.serverId === resumeServerId);
+        }
+
+        if (!targetServer && lastChoice.quality && lastChoice.server) {
+          for (let i = 0; i < validQualities.length; i++) {
+            const q = validQualities[i];
+            const qTitle = getQualityTitle(q, i);
+            if (qTitle.toLowerCase() === lastChoice.quality.toLowerCase()) {
+              const matchingServer = q.serverList.find(s => {
+                const sTitle = getServerTitle(s);
+                return sTitle.toLowerCase().includes(lastChoice.server.toLowerCase());
+              });
+              if (matchingServer) {
+                targetServer = matchingServer;
+                break;
+              }
+            }
           }
         }
 
-        // Tampilkan toast resume jika ada posisi tersimpan
+        if (!targetServer) {
+          targetServer = validQualities[0]?.serverList?.[0];
+        }
+
+        if (targetServer) {
+          let targetBtn = null;
+          for (let qIndex = 0; qIndex < validQualities.length; qIndex++) {
+            const q = validQualities[qIndex];
+            const serverInThisQuality = q.serverList.find(s => s.serverId === targetServer.serverId);
+            if (serverInThisQuality) {
+              const tabBtn = serverSec.querySelectorAll('.quality-tab')[qIndex];
+              if (tabBtn) switchQuality(`q${qIndex}`, tabBtn);
+              targetBtn = serverSec.querySelector(`[data-server-id="${targetServer.serverId}"]`);
+              break;
+            }
+          }
+          
+          if (targetBtn) {
+            loadServerById(targetServer.serverId, targetBtn, resumePosition);
+          }
+        }
+
         if (resumePosition > 5) {
           const mins = Math.floor(resumePosition / 60);
           const secs = Math.floor(resumePosition % 60).toString().padStart(2, '0');
           showResumeToast(`Melanjutkan dari ${mins}:${secs}`);
         }
       } else if (d.defaultStreamingUrl) {
-         document.getElementById('playerWrap').innerHTML = `<iframe src="${d.defaultStreamingUrl}" allowfullscreen allow="autoplay; fullscreen"></iframe>`;
-         serverSec.innerHTML = '<div class="server-group"><p style="font-size:0.85rem;color:var(--text-muted)">Menggunakan server default</p></div>';
+         document.getElementById('playerWrap').innerHTML = `<iframe src="${d.defaultStreamingUrl}" allowfullscreen allow="autoplay; fullscreen" style="width:100%;height:100%;border:none;"></iframe>`;
+         serverSec.innerHTML = '<div class="server-group"><p style="font-size:var(--text-sm);font-family:var(--font-mono);color:var(--color-secondary);">Menggunakan server default</p></div>';
       }
 
-      /*  Navigation  */
       const navEl = document.getElementById('epNav');
       let navHTML = '';
       if (d.prevEpisode?.episodeId) {
-        navHTML += `<div class="nav-btn" onclick="goEpisode('${d.prevEpisode.episodeId}')"><i data-lucide="arrow-left"></i> <span>Eps Sebelumnya</span></div>`;
+        navHTML += `<div class="nav-btn" onclick="goEpisode('${d.prevEpisode.episodeId}')">← <span>Eps Sebelumnya</span></div>`;
       }
       if (d.animeId) {
-        navHTML += `<div class="nav-btn" onclick="MiruApp('${d.animeId}')"><i data-lucide="list"></i> <span>Semua Eps</span></div>`;
+        navHTML += `<div class="nav-btn" onclick="MiruApp('${d.animeId}')">☰ <span>Semua Eps</span></div>`;
       }
       if (d.nextEpisode?.episodeId) {
-        navHTML += `<div class="nav-btn" onclick="goEpisode('${d.nextEpisode.episodeId}')"><span>Eps Berikutnya</span> <i data-lucide="arrow-right"></i></div>`;
+        navHTML += `<div class="nav-btn" onclick="goEpisode('${d.nextEpisode.episodeId}')"><span>Eps Berikutnya</span> →</div>`;
       }
       navEl.innerHTML = navHTML;
 
-      /*  Downloads  */
       const formats = d.downloadUrl?.formats || [];
       if (formats.length) {
         document.getElementById('downloadSection').style.display = 'block';
         document.getElementById('downloadLinks').innerHTML = formats.map(fmt => {
-          // Ambil hanya tipe format (MKV/MP4/x265)  buang nama anime di belakangnya
           const fmtLabel = fmt.title.split(' ')[0] || fmt.title;
           return `
           <div class="download-card">
-            <div class="download-card-title"><i data-lucide="file-video"></i> ${fmtLabel}</div>
+            <div class="download-card-title">${DL_ICON} ${fmtLabel}</div>
             ${(fmt.qualities || []).map(q => `
               <div class="download-quality-item">
                 <span class="quality-label">${q.title.trim()}</span>
@@ -503,7 +624,6 @@
         }).join('');
       }
 
-      /*  Sidebar  */
       document.getElementById('epInfoSidebar').innerHTML = `
         <div class="info-list">
           <div class="info-row-item">
@@ -517,18 +637,20 @@
           <div class="info-row-item">
             <span class="info-row-lbl">Nama Anime</span>
             <span class="info-row-val">
-              ${d.animeId ? `<a href="/anime?slug=${d.animeId}" style="color:var(--accent);text-decoration:underline;">${d.animeId}</a>` : '-'}
+              ${d.animeId
+                ? `<a href="/anime?slug=${d.animeId}" style="color:var(--color-black);text-decoration:none;font-weight:700;border-bottom:2px solid var(--color-primary);padding-bottom:1px;">${d.animeId}</a>`
+                : '-'}
             </span>
           </div>
           <div class="info-row-item">
             <span class="info-row-lbl">Genre</span>
-            <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:5px;">
-               ${(d.genreList || []).map(g => `<a href="/genres/${g.genreId}" class="genre-pill" style="padding: 2px 10px; font-size: 0.7rem;">${g.title}</a>`).join('')}
+            <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-2);">
+              ${(d.genreList || []).map(g =>
+                `<a href="/genres/${g.genreId}" class="genre-tag" style="padding:var(--space-2) var(--space-4);font-size:var(--text-xs);box-shadow:none;">${g.title}</a>`
+              ).join('')}
             </div>
           </div>
         </div>`;
-
-      lucide.createIcons();
 
     } catch (err) {
       document.getElementById('epTitle').innerHTML = ' Gagal memuat episode';
@@ -538,19 +660,45 @@
 
   let artInstance = null;
   let currentEpisodeData = null;
-  let _saveProgressTimer = null; // throttle save setiap 5 detik
+  let _saveProgressTimer = null;
 
-  // Variabel global untuk diakses helpers.js saat update progress
   window._currentVideoTitle = null;
   window._currentVideoCover = null;
   window._currentServerId   = null;
 
-  // URL yang bisa langsung diplay di ArtPlayer
+  function saveLastChoice(qualityTitle, serverTitle) {
+    localStorage.setItem('last_quality', qualityTitle);
+    localStorage.setItem('last_server', serverTitle);
+  }
+
+  function getLastChoice() {
+    return {
+      quality: localStorage.getItem('last_quality'),
+      server: localStorage.getItem('last_server')
+    };
+  }
+
+  function normalizeText(value) {
+    return (value ?? '').toString().trim();
+  }
+
+  function getServerTitle(server) {
+    return normalizeText(server?.title || server?.name) || 'Server';
+  }
+
+  function getQualityTitle(quality, index) {
+    let title = normalizeText(quality?.title || quality?.name);
+    if (!title || title.toLowerCase() === 'unknown') {
+      const firstServerTitle = normalizeText(quality?.serverList?.[0]?.title || quality?.serverList?.[0]?.name);
+      if (firstServerTitle) title = firstServerTitle;
+    }
+    return title || `Quality ${index + 1}`;
+  }
+
   function isDirectPlayable(url) {
     return url.match(/\.(mp4|webm|ogg|m3u8)(\?|$)/i) !== null;
   }
 
-  // Save watch history when episode is loaded
   function saveCurrentEpisodeToHistory() {
     if (!currentEpisodeData) return;
     
@@ -592,7 +740,7 @@
       fullscreen: true,
       fullscreenWeb: true,
       miniProgressBar: true,
-      theme: '#e63946',
+      theme: '#FFE500',
       customType: isHLS ? {
         m3u8: function(video, url) {
           if (Hls.isSupported()) {
@@ -606,7 +754,6 @@
       } : {},
     });
 
-    // Resume ke posisi terakhir — hanya sekali
     if (resumePosition > 5) {
       let resumed = false;
       artInstance.on('video:canplay', () => {
@@ -616,7 +763,50 @@
       });
     }
 
-    // Fungsi save posisi saat ini
+    let bufferingTimer = null;
+    let bufferingStartedAt = 0;
+    let autoSwitchCount = 0;
+
+    function clearBufferingTimer() {
+      if (!bufferingTimer) return;
+      clearTimeout(bufferingTimer);
+      bufferingTimer = null;
+      bufferingStartedAt = 0;
+    }
+
+    function tryAutoSwitch(reason) {
+      if (autoSwitchCount >= 2) return;
+      autoSwitchCount += 1;
+
+      const activeBtn = document.querySelector('.server-btn.active');
+      const activeContainer = activeBtn?.closest('.quality-servers') || document.querySelector('.quality-servers.active');
+      const candidates = Array.from(activeContainer?.querySelectorAll('.server-btn') || []).filter(b => b !== activeBtn);
+      const nextBtn = candidates[0];
+
+      if (!nextBtn) {
+        showResumeToast('Server lagi lambat/blocked. Coba ganti server atau turunin kualitas.');
+        return;
+      }
+
+      const currentTime = Math.max(0, Math.floor(artInstance?.currentTime || 0));
+      const nextServerId = nextBtn.getAttribute('data-server-id');
+      if (!nextServerId) return;
+
+      showResumeToast(`Buffering (${reason}). Pindah server otomatis...`);
+      loadServerById(nextServerId, nextBtn, currentTime);
+    }
+
+    function onBuffering(reason) {
+      if (bufferingTimer) return;
+      bufferingStartedAt = Date.now();
+      bufferingTimer = setTimeout(() => {
+        bufferingTimer = null;
+        const elapsed = Date.now() - bufferingStartedAt;
+        bufferingStartedAt = 0;
+        if (elapsed >= 8000) tryAutoSwitch(reason);
+      }, 8000);
+    }
+
     function saveCurrentPosition() {
       if (!currentEpisodeData || !artInstance.duration) return;
       const progress = Math.floor((artInstance.currentTime / artInstance.duration) * 100);
@@ -628,7 +818,6 @@
       );
     }
 
-    // Throttle save setiap 5 detik saat video berjalan
     artInstance.on('video:timeupdate', () => {
       if (!currentEpisodeData || !artInstance.duration) return;
       if (_saveProgressTimer) return;
@@ -638,21 +827,27 @@
       }, 5000);
     });
 
-    // Simpan LANGSUNG saat pause — posisi akurat
     artInstance.on('video:pause', () => {
       if (_saveProgressTimer) { clearTimeout(_saveProgressTimer); _saveProgressTimer = null; }
       saveCurrentPosition();
     });
 
-    // Simpan LANGSUNG saat video selesai
     artInstance.on('video:ended', () => {
       if (_saveProgressTimer) { clearTimeout(_saveProgressTimer); _saveProgressTimer = null; }
       saveCurrentPosition();
     });
 
-    // Save to history when video starts playing
     artInstance.on('video:play', () => {
       saveCurrentEpisodeToHistory();
+    });
+
+    artInstance.on('video:waiting', () => onBuffering('waiting'));
+    artInstance.on('video:stalled', () => onBuffering('stalled'));
+    artInstance.on('video:canplay', clearBufferingTimer);
+    artInstance.on('video:playing', clearBufferingTimer);
+    artInstance.on('video:error', () => {
+      clearBufferingTimer();
+      tryAutoSwitch('error');
     });
   }
 
@@ -666,11 +861,14 @@
     document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
 
-    // Simpan server yang dipilih
     window._currentServerId = serverId;
 
+    const qualityTitle = btn?.getAttribute('data-quality-title');
+    const serverTitle = btn?.getAttribute('data-server-title');
+    if (qualityTitle && serverTitle) saveLastChoice(qualityTitle, serverTitle);
+
     const wrap = document.getElementById('playerWrap');
-    wrap.innerHTML = '<div class="player-placeholder"><div class="spinner"></div><span>Mengambil link stream...</span></div>';
+    wrap.innerHTML = '<div class="player-placeholder"><div class="spinner" style="border-color: var(--color-white); border-top-color: var(--color-primary);"></div><span>Mengambil link stream...</span></div>';
 
     try {
       const res  = await fetch(`${API}/api/server/${serverId}`);
@@ -678,7 +876,7 @@
       const url  = json.data?.url || json.data?.streamUrl || json.data?.src || '';
 
       if (!url) {
-        wrap.innerHTML = '<div class="player-placeholder"><span style="color:var(--accent)"> URL tidak tersedia</span></div>';
+        wrap.innerHTML = '<div class="player-placeholder"><span style="color: var(--color-secondary);"> URL tidak tersedia</span></div>';
         return;
       }
 
@@ -690,15 +888,13 @@
         playIframe(url);
       }
     } catch (err) {
-      wrap.innerHTML = `<div class="player-placeholder"><span style="color:var(--accent)"> ${err.message}</span></div>`;
+      wrap.innerHTML = `<div class="player-placeholder"><span style="color: var(--color-secondary);"> ${err.message}</span></div>`;
     }
   }
 
-  // Simpan posisi saat user leave page atau switch tab
   function saveOnLeave() {
     if (!artInstance || !currentEpisodeData || !artInstance.duration) return;
     const progress = Math.floor((artInstance.currentTime / artInstance.duration) * 100);
-    // Gunakan sendBeacon agar request tidak dibatalkan saat navigasi
     const token = Auth.getToken();
     if (!token) return;
     const payload = JSON.stringify({
@@ -709,19 +905,16 @@
       last_position:   Math.floor(artInstance.currentTime),
       last_server_id:  window._currentServerId || undefined,
     });
-    // sendBeacon tidak support custom header, pakai fetch dengan keepalive
     fetch('/api/user/history', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: payload,
-      keepalive: true, // request tetap jalan meski halaman ditutup
+      keepalive: true,
     }).catch(() => {});
   }
 
-  // Event: pindah halaman (klik link, back button, dll)
   window.addEventListener('beforeunload', saveOnLeave);
 
-  // Event: switch tab / minimize — simpan saat tab tidak aktif
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) saveOnLeave();
   });
@@ -731,17 +924,16 @@
     toast.innerHTML = `▶ ${message}`;
     toast.style.cssText = `
       position:fixed; bottom:2rem; left:50%; transform:translateX(-50%);
-      background:rgba(0,0,0,.85); backdrop-filter:blur(8px);
-      color:#fff; padding:.65rem 1.5rem; border-radius:30px;
-      font-size:.88rem; font-weight:600; z-index:9999;
-      border:1px solid rgba(255,255,255,.15);
-      animation:fadeInUp .3s ease;
+      background:var(--color-primary); color:var(--color-black);
+      padding:var(--space-4) var(--space-6);
+      font-family:var(--font-mono); font-size:var(--text-sm); font-weight:700;
+      z-index:9999; border:var(--border-thick) solid var(--color-border);
+      box-shadow:var(--shadow-xl); animation:fadeInUp .3s ease;
     `;
     document.body.appendChild(toast);
     setTimeout(() => { toast.style.opacity='0'; toast.style.transition='opacity .4s'; setTimeout(()=>toast.remove(),400); }, 3000);
   }
 
-  // Tambahkan animasi
   const _style = document.createElement('style');
   _style.textContent = `@keyframes fadeInUp { from{opacity:0;transform:translateX(-50%) translateY(10px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }`;
   document.head.appendChild(_style);
@@ -750,13 +942,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-

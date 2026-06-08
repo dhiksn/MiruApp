@@ -47,7 +47,7 @@ exports.register = async (req, res) => {
     const { data: user, error } = await supabase
       .from('users')
       .insert({ username, email, password_hash })
-      .select('id, username, email, role, created_at')
+      .select('id, username, email, role, avatar_url, created_at')
       .single();
 
     if (error) throw error;
@@ -70,7 +70,7 @@ exports.login = async (req, res) => {
   try {
     const { data: user, error } = await supabase
       .from('users')
-      .select('id, username, email, password_hash, role, is_active')
+      .select('id, username, email, password_hash, role, avatar_url, is_active')
       .eq('email', email)
       .maybeSingle();
 
@@ -197,7 +197,7 @@ exports.me = async (req, res) => {
     const payload = jwt.verify(auth.slice(7), JWT_SECRET);
     const { data: user } = await supabase
       .from('users')
-      .select('id, username, email, role')
+      .select('id, username, email, role, avatar_url')
       .eq('id', payload.id)
       .single();
 

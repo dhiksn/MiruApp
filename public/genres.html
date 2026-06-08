@@ -13,44 +13,43 @@
   <style>
     .genre-section {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: .75rem;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: var(--space-4);
     }
     .genre-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1rem .75rem;
+      background: var(--color-white);
+      border: var(--border-thick) solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      padding: var(--space-5);
       text-align: center;
       cursor: pointer;
-      transition: var(--transition);
+      transition: transform var(--duration-fast) var(--ease-snap), box-shadow var(--duration-fast) var(--ease-snap), background var(--duration-fast) var(--ease-snap);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: .4rem;
+      gap: var(--space-3);
     }
     .genre-card:hover {
-      border-color: var(--accent);
-      background: var(--bg-card-hover);
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
+      background: var(--color-primary);
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-md);
     }
     .genre-card-name {
-      font-size: .88rem;
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
       font-weight: 700;
-      color: var(--text-primary);
+      text-transform: uppercase;
+      color: var(--color-black);
     }
-    .genre-card-count {
-      font-size: .72rem;
-      color: var(--text-muted);
+    .genre-icon {
+      font-size: var(--text-3xl);
     }
-    .genre-icon { font-size: 1.5rem; }
   </style>
 </head>
 <body>
 
 <nav class="navbar">
-  <a class="navbar-brand" href="/"> <span>MiruApp</span></a>
+  <a class="navbar-brand" href="/">MIRUAPP</a>
   <ul class="navbar-nav">
     <li><a href="/">Home</a></li>
     <li><a href="/ongoing">Ongoing</a></li>
@@ -59,11 +58,37 @@
     <li><a href="/batch">Batch</a></li>
     <li><a href="/daftar-anime">Daftar Anime</a></li>
   </ul>
-  <div class="navbar-search">
-    <input type="text" id="navSearch" placeholder="Cari anime..." />
-    <button onclick="doNavSearch()">Cari</button>
+  <div class="navbar-right">
+    <button class="navbar-search-icon" id="searchBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+    <div id="navAuth"></div>
   </div>
 </nav>
+
+<!-- Search Modal -->
+<div class="search-modal" id="searchModal">
+  <div class="search-modal-overlay" id="searchOverlay"></div>
+  <div class="search-modal-content">
+    <button class="search-modal-close" id="searchCloseBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="search-modal-input-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="modalSearch" placeholder="Cari anime...">
+      <button class="search-modal-submit" id="modalSearchSubmit">Cari</button>
+    </div>
+  </div>
+</div>
 
 <div class="page-header">
   <h1>Genre <span>Anime</span></h1>
@@ -71,12 +96,6 @@
 </div>
 
 <div class="container">
-  <!-- Breadcrumb -->
-  <nav style="font-size:.82rem;color:var(--text-muted);padding:1rem 0 0;display:flex;gap:.4rem;align-items:center">
-    <a href="/" style="color:var(--text-muted);transition:.2s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">Home</a>
-    <span>/</span>
-    <span style="color:var(--text-primary)">Genre</span>
-  </nav>
   <section class="section">
     <div id="genreGrid" class="genre-section">
       <div class="loading-overlay"><div class="spinner"></div><span>Memuat genre...</span></div>
@@ -84,23 +103,26 @@
   </section>
 </div>
 
-<footer><p>MiruApp Wrapper &copy; 2024</p></footer>
+<footer><p>MiruApp Wrapper & UI &copy; 2024</p></footer>
 
 <script src="/js/helpers.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/search-modal.js"></script>
 <script>
   initNavSearch();
+  renderAuthNav();
 
   // Emoji per genre
   const GENRE_ICONS = {
-    action:'', adventure:'', comedy:'', drama:'',
-    fantasy:'', horror:'', mystery:'', romance:'',
-    'sci-fi':'', 'slice-of-life':'', sports:'', supernatural:'',
-    thriller:'', music:'', historical:'', school:'',
-    isekai:'', harem:'', ecchi:'', mecha:'',
-    psychological:'', military:'', magic:'', demons:'',
-    vampire:'', 'super-power':'', seinen:'', shounen:'',
-    shoujo:'', josei:'', kids:'', parody:'',
-    'martial-arts':'', game:'', reincarnation:'',
+    action:'⚔️', adventure:'🧭', comedy:'😂', drama:'🎭',
+    fantasy:'🧙', horror:'👻', mystery:'🔍', romance:'❤️',
+    'sci-fi':'🚀', 'slice-of-life':'☕', sports:'⚽', supernatural:'✨',
+    thriller:'🔪', music:'🎵', historical:'📜', school:'🏫',
+    isekai:'🌍', harem:'👯', ecchi:'😏', mecha:'🤖',
+    psychological:'🧠', military:'🎖️', magic:'🪄', demons:'👹',
+    vampire:'🧛', 'super-power':'💥', seinen:'👨', shounen:'👦',
+    shoujo:'👧', josei:'👩', kids:'👶', parody:'🎭',
+    'martial-arts':'🥋', game:'🎮', reincarnation:'🔄',
   };
 
   async function loadGenres() {
@@ -133,7 +155,7 @@
       }
 
       grid.innerHTML = list.map(g => {
-        const icon = GENRE_ICONS[g.genreId] || '';
+        const icon = GENRE_ICONS[g.genreId] || '📚';
         return `
           <div class="genre-card" onclick="goGenre('${g.genreId}')">
             <div class="genre-icon">${icon}</div>
@@ -150,10 +172,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-

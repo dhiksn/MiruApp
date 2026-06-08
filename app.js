@@ -1,4 +1,4 @@
-﻿require('dotenv').config();
+require('dotenv').config();
 
 const express = require('express');
 const path    = require('path');
@@ -51,6 +51,8 @@ app.get('/register', send('register.html'));
 app.get('/profile',  send('profile.html'));
 app.get('/profile/history',   send('profile/history.html'));
 app.get('/profile/favorites', send('profile/favorites.html'));
+app.get('/profile/settings',  send('profile/settings.html'));
+app.get('/profile/change-password', send('profile/change-password.html'));
 
 // ── 404 ─────────────────────────────────────────────────────
 app.use((req, res) => {

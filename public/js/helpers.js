@@ -42,11 +42,11 @@ function animeCard(a) {
         <img src="${a.poster || '/img/placeholder.svg'}" alt="${a.title}" loading="lazy"
              onerror="this.src='/img/placeholder.svg'"/>
         <span class="anime-card-badge">${a.type || 'TV'}</span>
-        ${score ? `<span class="anime-card-badge" style="background:rgba(0,0,0,.65);left:auto;right:6px;color:#f4a261">&#11088; ${score}</span>` : ''}
-        <div class="anime-card-info">
-          <div class="anime-card-title">${a.title}</div>
-          <div class="anime-card-meta">${a.status || ''}</div>
-        </div>
+        ${score ? `<span class="anime-card-badge" style="left:auto;right:1rem;background:var(--color-white)">&#11088; ${score}</span>` : ''}
+      </div>
+      <div class="anime-card-info">
+        <div class="anime-card-title">${a.title}</div>
+        <div class="anime-card-meta">${a.status || ''}</div>
       </div>
     </div>`;
 }
@@ -86,6 +86,27 @@ function episodeCard(e) {
 }
 
 /*  Pagination  */
+async function checkHasNext(baseApiUrl, page, dataExtractor, extraParams = {}) {
+  try {
+    const url = new URL(baseApiUrl, window.location.origin);
+    const params = new URLSearchParams(url.search);
+    params.set('page', page + 1);
+    
+    // Tambahkan parameter tambahan jika ada
+    Object.entries(extraParams).forEach(([key, value]) => {
+      params.set(key, value);
+    });
+    
+    url.search = params.toString();
+    const res = await fetch(url.toString());
+    const json = await res.json();
+    const list = dataExtractor(json);
+    return list.length > 0;
+  } catch {
+    return false;
+  }
+}
+
 function renderPagination(containerId, page, hasNext, onPageChange) {
   document.getElementById(containerId).innerHTML = `
     <button class="page-btn" onclick="${onPageChange}(${page - 1})" ${page <= 1 ? 'disabled' : ''}> Prev</button>

@@ -5,169 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MiruApp  Home</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
   <link rel="icon" type="image/x-icon" href="/icon/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png" />
   <link rel="apple-touch-icon" href="/icon/apple-touch-icon.png" />
   <link rel="manifest" href="/icon/site.webmanifest" />
-  <style>
-    /*  TOP 10 SLIDER  */
-    .top10-wrapper {
-      background: var(--bg-secondary);
-      border-bottom: 1px solid var(--border);
-      padding: 1.25rem 0 1.5rem;
-    }
-    .top10-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-      padding: 0 1.5rem;
-      max-width: 1280px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .top10-header .section-title { margin-bottom: 0; }
-
-    .slider-nav { display: flex; gap: .4rem; }
-    .slider-btn {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      width: 32px; height: 32px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-size: 1.2rem; line-height: 1;
-      transition: var(--transition); color: var(--text-primary);
-    }
-    .slider-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-    .slider-track-outer {
-      overflow: hidden;
-      padding: 0 1.5rem;
-      max-width: 1280px;
-      margin: 0 auto;
-    }
-    .slider-track {
-      display: flex;
-      gap: 1rem;
-      transition: transform .35s ease;
-      will-change: transform;
-    }
-
-    /* Setiap card slider */
-    .top10-card {
-      flex: 0 0 calc((100% - 5 * 1rem) / 6); /* 6 card visible */
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-      position: relative;
-    }
-    .top10-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow);
-      border-color: var(--accent);
-    }
-    .top10-card-thumb {
-      position: relative;
-      aspect-ratio: 2/3;
-      overflow: hidden;
-      background: var(--bg-secondary);
-    }
-    .top10-card-thumb img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transition: transform .3s ease;
-    }
-    .top10-card:hover .top10-card-thumb img { transform: scale(1.05); }
-
-    /* Rank badge pojok kiri atas  "TOP" kecil + angka besar */
-    .top10-rank {
-      position: absolute;
-      top: 6px; left: 6px;
-      background: rgba(0,0,0,.72);
-      backdrop-filter: blur(4px);
-      border-radius: 6px;
-      padding: 5px 10px 6px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      line-height: 1;
-      min-width: 42px;
-    }
-    .top10-rank .rank-top {
-      font-size: .55rem;
-      font-weight: 800;
-      letter-spacing: .12em;
-      color: #aaa;
-      text-transform: uppercase;
-    }
-    .top10-rank .rank-num {
-      font-size: 1.6rem;
-      font-weight: 900;
-      color: #ddd;
-      margin-top: 1px;
-    }
-
-    /* Score badge pojok kanan atas */
-    .top10-score {
-      position: absolute;
-      top: 6px; right: 6px;
-      font-size: .75rem;
-      font-weight: 700;
-      background: rgba(0,0,0,.65);
-      color: #f4a261;
-      padding: 4px 9px;
-      border-radius: 5px;
-      backdrop-filter: blur(4px);
-    }
-
-    /* Judul overlay di dalam gambar */
-    .top10-card-info { display: none; }
-    .top10-card-title {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 2.5rem .65rem .65rem;
-      background: linear-gradient(to top, rgba(0,0,0,.88) 55%, transparent);
-      font-size: .78rem;
-      font-weight: 700;
-      color: #fff;
-      line-height: 1.35;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    @media (max-width: 900px) {
-      .top10-card { flex: 0 0 calc((100% - 3 * 1rem) / 4); }
-    }
-    @media (max-width: 560px) {
-      .top10-card { flex: 0 0 calc((100% - 2 * 1rem) / 3); }
-    }
-  </style>
 </head>
 <body>
 
 <nav class="navbar">
-  <a class="navbar-brand" href="/"> <span>MiruApp</span></a>
+  <a class="navbar-brand" href="/">MIRUAPP</a>
   <ul class="navbar-nav">
     <li><a href="/" class="active">Home</a></li>
     <li><a href="/ongoing">Ongoing</a></li>
     <li><a href="/movies">Movies</a></li>
     <li><a href="/schedule">Jadwal</a></li>
-    <li><a href="/batch">Batch</a></li><li><a href="/daftar-anime">Daftar Anime</a></li>
+    <li><a href="/batch">Batch</a></li>
+    <li><a href="/daftar-anime">Daftar Anime</a></li>
   </ul>
-  <div style="display:flex;align-items:center;gap:.75rem">
-    <div class="navbar-search">
-      <input type="text" id="navSearch" placeholder="Cari anime..." />
-      <button onclick="doNavSearch()">Cari</button>
-    </div>
+  <div class="navbar-right">
+    <button class="navbar-search-icon" id="searchBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
     <div id="navAuth"></div>
   </div>
 </nav>
+
+<!-- Search Modal -->
+<div class="search-modal" id="searchModal">
+  <div class="search-modal-overlay" id="searchOverlay"></div>
+  <div class="search-modal-content">
+    <button class="search-modal-close" id="searchCloseBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="search-modal-input-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" id="modalSearch" placeholder="Cari anime...">
+      <button class="search-modal-submit" id="modalSearchSubmit">Cari</button>
+    </div>
+  </div>
+</div>
 
 <!--  TOP 10 SLIDER (paling atas)  -->
 <div class="top10-wrapper">
@@ -194,7 +81,7 @@
   <section class="section" id="continueWatchingSection" style="display:none">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
       <div class="section-title" style="margin-bottom:0">Lanjutkan Menonton</div>
-      <button onclick="clearContinueWatching()" style="font-size:.75rem;color:var(--text-muted);background:none;border:none;cursor:pointer;padding:.25rem .5rem;border-radius:4px;transition:.2s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">Hapus Semua</button>
+      <button onclick="clearContinueWatching()" class="page-btn">Hapus Semua</button>
     </div>
     <div id="continueWatchingGrid" class="anime-grid"></div>
   </section>
@@ -203,7 +90,7 @@
   <section class="section">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
       <div class="section-title" style="margin-bottom:0">Anime Terbaru</div>
-      <a href="/recent" style="font-size:.82rem;color:var(--accent);font-weight:600;text-decoration:none;transition:.2s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">View All </a>
+      <a href="/recent" class="page-btn">View All</a>
     </div>
     <div id="recentGrid" class="episode-grid">
       <div class="loading-overlay"><div class="spinner"></div><span>Memuat data...</span></div>
@@ -217,7 +104,7 @@
       <div class="loading-overlay"><div class="spinner"></div></div>
     </div>
     <div style="text-align:center;margin-top:1rem">
-      <a href="/movies" class="page-btn">Lihat Semua Movie </a>
+      <a href="/movies" class="page-btn">Lihat Semua Movie</a>
     </div>
   </section>
 
@@ -229,6 +116,8 @@
 
 <script src="/js/helpers.js"></script>
 <script src="/js/auth.js"></script>
+<script src="/js/search-modal.js"></script>
+<script src="/js/modal.js"></script>
 <script>
   initNavSearch();
   renderAuthNav();
@@ -252,7 +141,7 @@
 
     const track     = document.getElementById('top10Track');
     const cardWidth = track.querySelector('.top10-card')?.offsetWidth || 0;
-    const gap       = 16; // 1rem
+    const gap       = 24; // 1.5rem
     track.style.transform = `translateX(-${sliderIndex * (cardWidth + gap)}px)`;
   }
 
@@ -287,7 +176,7 @@
               <div class="top10-card-thumb">
                 <img src="${a.poster || '/img/placeholder.svg'}" alt="${a.title}"
                      loading="lazy" onerror="this.src='/img/placeholder.svg'"/>
-                <span class="top10-rank ${rankClass(a.rank)}">
+                <span class="top10-rank">
                   <span class="rank-top">TOP</span>
                   <span class="rank-num">${a.rank}</span>
                 </span>
@@ -318,12 +207,12 @@
               <div class="anime-card-thumb">
                 <img src="${a.poster || '/img/placeholder.svg'}" alt="${a.title}"
                      loading="lazy" onerror="this.src='/img/placeholder.svg'"/>
-                <span class="anime-card-badge" style="background:#7b2d8b">Movie</span>
-                ${score ? `<span class="anime-card-badge" style="background:rgba(0,0,0,.65);left:auto;right:6px;color:#f4a261">&#11088; ${score}</span>` : ''}
-                <div class="anime-card-info">
-                  <div class="anime-card-title">${a.title}</div>
-                  <div class="anime-card-meta">${genres}</div>
-                </div>
+                <span class="anime-card-badge">Movie</span>
+                ${score ? `<span class="anime-card-badge" style="left:auto;right:1rem;background:var(--color-white)">&#11088; ${score}</span>` : ''}
+              </div>
+              <div class="anime-card-info">
+                <div class="anime-card-title">${a.title}</div>
+                <div class="anime-card-meta">${genres}</div>
               </div>
             </div>`;
           }).join('')
@@ -363,17 +252,17 @@
                    alt="${item.video_title || ''}"
                    loading="lazy" onerror="this.src='/img/placeholder.svg'"/>
               ${progress > 0 ? `
-                <span class="anime-card-badge" style="background:rgba(0,0,0,.65);left:auto;right:6px;color:#fff;font-size:.6rem">
+                <span class="anime-card-badge" style="left:auto;right:1rem;background:var(--color-white)">
                   ${progress}%
                 </span>` : ''}
-              <div class="anime-card-info">
-                <div class="anime-card-title">${item.video_title || item.video_slug}</div>
-                <div class="anime-card-meta">${date}</div>
-              </div>
               ${progress > 0 ? `
-                <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.15)">
-                  <div style="height:100%;background:var(--accent);width:${progress}%;transition:width .3s"></div>
+                <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(0,0,0,.2)">
+                  <div style="height:100%;background:var(--color-primary);width:${progress}%"></div>
                 </div>` : ''}
+            </div>
+            <div class="anime-card-info">
+              <div class="anime-card-title">${item.video_title || item.video_slug}</div>
+              <div class="anime-card-meta">${date}</div>
             </div>
           </div>`;
       }).join('');
@@ -384,9 +273,18 @@
   }
 
   async function clearContinueWatching() {
-    if (!confirm('Hapus semua riwayat tontonan?')) return;
-    await authFetch('/api/user/history', { method: 'DELETE' });
-    document.getElementById('continueWatchingSection').style.display = 'none';
+    openConfirmModal({
+        topBarLabel: "KONFIRMASI HAPUS",
+        title: "Hapus",
+        titleHighlight: "Semua Riwayat",
+        description: "Semua item riwayat tontonanmu akan dihapus permanen. Aksi ini tidak bisa dibatalkan.",
+        cancelText: "BATAL",
+        confirmText: "YA HAPUS",
+        onConfirm: async () => {
+            await authFetch('/api/user/history', { method: 'DELETE' });
+            document.getElementById('continueWatchingSection').style.display = 'none';
+        }
+    });
   }
 
   // Load continue watching on page load
