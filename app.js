@@ -40,9 +40,11 @@ app.get('/genres',       send('genres.html'));
 app.get('/genres/:slug', send('genre.html'));
 app.get('/genre',        send('genre.html'));
 app.get('/batch',        send('batch.html'));
-app.get('/batch-detail', send('batch-detail.html'));
+app.get('/batch/:slug', send('batch-detail.html'));
 app.get('/anime',        send('anime.html'));
+app.get('/anime/:slug',  send('anime.html'));
 app.get('/episode',      send('episode.html'));
+app.get('/episode/:slug', send('episode.html'));
 app.get('/daftar-anime', send('list.html'));
 app.get('/list',         send('list.html'));
 

@@ -9,9 +9,9 @@
 const API = '';
 
 /*  Navigasi  */
-function MiruApp(animeId)   { window.location.href = `/anime?slug=${animeId}`; }
-function goEpisode(epId)    { window.location.href = `/episode?slug=${epId}`; }
-function goBatch(animeId)   { window.location.href = `/batch-detail?slug=${animeId}`; }
+function MiruApp(animeId)   { window.location.href = `/anime/${animeId}`; }
+function goEpisode(epId)    { window.location.href = `/episode/${epId}`; }
+function goBatch(animeId)   { window.location.href = `/batch/${animeId}`; }
 function goGenre(genreId)   { window.location.href = `/genres/${genreId}`; }
 
 /*  Navbar search  */

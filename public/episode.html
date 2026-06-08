@@ -442,8 +442,16 @@
 <script>
   initNavSearch();
   renderAuthNav();
-  const params = new URLSearchParams(location.search);
-  const slug   = params.get('slug') || '';
+  const getSlugFromPath = (pathPart) => {
+    const pathParts = location.pathname.split('/').filter(Boolean);
+    const index = pathParts.indexOf(pathPart);
+    return index !== -1 && pathParts[index + 1] ? decodeURIComponent(pathParts[index + 1]) : '';
+  };
+  let slug = getSlugFromPath('episode');
+  if (!slug) {
+    const params = new URLSearchParams(location.search);
+    slug = params.get('slug') || '';
+  }
 
   function switchQuality(id, tab) {
     document.querySelectorAll('.quality-servers').forEach(el => el.classList.remove('active'));
@@ -638,7 +646,7 @@
             <span class="info-row-lbl">Nama Anime</span>
             <span class="info-row-val">
               ${d.animeId
-                ? `<a href="/anime?slug=${d.animeId}" style="color:var(--color-black);text-decoration:none;font-weight:700;border-bottom:2px solid var(--color-primary);padding-bottom:1px;">${d.animeId}</a>`
+                ? `<a href="/anime/${d.animeId}" style="color:var(--color-black);text-decoration:none;font-weight:700;border-bottom:2px solid var(--color-primary);padding-bottom:1px;">${d.animeId}</a>`
                 : '-'}
             </span>
           </div>

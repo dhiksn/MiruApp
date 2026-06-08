@@ -183,7 +183,7 @@
     const id    = b.batchId || b.animeId || b.slug || '';
     const score = b.score && b.score !== '0' && b.score !== '' ? b.score : null;
     return `
-      <div class="batch-card" onclick="window.location.href='/batch-detail?slug=${id}'">
+      <div class="batch-card" onclick="window.location.href='/batch/${id}'">
         <div class="batch-card-thumb">
           <img src="${b.poster || '/img/placeholder.svg'}" alt="${b.title}"
                loading="lazy" onerror="this.src='/img/placeholder.svg'"/>
