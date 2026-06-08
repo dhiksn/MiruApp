@@ -13,19 +13,8 @@ console.log('Current process.cwd():', process.cwd());
 console.log('NETLIFY env var:', process.env.NETLIFY);
 console.log('LAMBDA_TASK_ROOT env var:', process.env.LAMBDA_TASK_ROOT);
 
-// Find project root by looking for package.json
-let findProjectRoot = (dir) => {
-  if (require('fs').existsSync(path.join(dir, 'package.json'))) {
-    return dir;
-  }
-  const parentDir = path.dirname(dir);
-  if (parentDir === dir) return dir; // Reached root
-  return findProjectRoot(parentDir);
-};
-
-const projectRoot = findProjectRoot(__dirname);
-const PUB = path.resolve(projectRoot, 'public');
-console.log('Found project root:', projectRoot);
+// app.js is in project root, so public directory is always in same folder as app.js
+const PUB = path.resolve(__dirname, 'public');
 console.log('Final PUB path:', PUB);
 
 const send = (file) => (req, res) => res.sendFile(path.join(PUB, file));
