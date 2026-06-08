@@ -7,7 +7,13 @@ const logger    = require('./server/utils/logger');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
-const PUB  = path.join(__dirname, 'public');
+// Determine the correct public directory path for both local and Netlify Functions
+let baseDir = __dirname;
+if (process.env.NETLIFY === 'true' || process.env.LAMBDA_TASK_ROOT) {
+  // In Netlify Functions, go up to the project root
+  baseDir = path.join(__dirname, '../..');
+}
+const PUB  = path.join(baseDir, 'public');
 
 const send = (file) => (req, res) => res.sendFile(path.join(PUB, file));
 
