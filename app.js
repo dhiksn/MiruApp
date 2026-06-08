@@ -13,9 +13,11 @@ console.log('Current process.cwd():', process.cwd());
 console.log('NETLIFY env var:', process.env.NETLIFY);
 console.log('LAMBDA_TASK_ROOT env var:', process.env.LAMBDA_TASK_ROOT);
 
-// app.js is in project root, so public directory is always in same folder as app.js
-const PUB = path.resolve(__dirname, 'public');
-console.log('Final PUB path:', PUB);
+const fs = require('fs');
+const PUB = path.join(process.cwd(), 'public');
+
+console.log('PUB:', PUB);
+console.log('anime exists:', fs.existsSync(path.join(PUB, 'anime.html')));
 
 const send = (file) => (req, res) => res.sendFile(path.join(PUB, file));
 
