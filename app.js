@@ -69,7 +69,7 @@ app.use((err, req, res, next) => {
 });
 
 // Lokal saja
-if (process.env.VERCEL !== '1') {
+if (process.env.NETLIFY !== 'true') {
   app.listen(PORT, () => logger.info(`Server running on http://localhost:${PORT}`));
 }
 
