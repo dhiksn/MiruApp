@@ -250,12 +250,20 @@
   initNavSearch();
   renderAuthNav();
 
-  const DAYS_ID = {
-    sunday:'Minggu', monday:'Senin', tuesday:'Selasa',
-    wednesday:'Rabu', thursday:'Kamis', friday:'Jumat', saturday:'Sabtu'
+  // API returns Indonesian day names; order them Mon→Sun
+  const DAY_ORDER = ['Senin','Selasa','Rabu','Kamis','Jumaat','Jumat','Sabtu','Minggu'];
+
+  // Canonical display label (normalise "Jumaat" → "Jumat")
+  const DAY_LABEL = {
+    Senin:'Senin', Selasa:'Selasa', Rabu:'Rabu', Kamis:'Kamis',
+    Jumaat:'Jumat', Jumat:'Jumat', Sabtu:'Sabtu', Minggu:'Minggu'
   };
 
-  const DAY_ORDER = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  // Map JS Date weekday (en-US) → API day name
+  const JS_TO_API = {
+    Monday:'Senin', Tuesday:'Selasa', Wednesday:'Rabu', Thursday:'Kamis',
+    Friday:'Jumat', Saturday:'Sabtu', Sunday:'Minggu'
+  };
 
   let allDays   = [];
   let activeDay = '';
@@ -264,7 +272,7 @@
     document.getElementById('dayTabs').innerHTML = allDays.map(d => `
       <div class="day-tab ${d.day === activeDay ? 'active' : ''}"
            onclick="switchDay('${d.day}')">
-        ${DAYS_ID[d.day.toLowerCase()] || d.day}
+        ${DAY_LABEL[d.day] || d.day}
       </div>`).join('');
   }
 
@@ -308,6 +316,7 @@
       const json = await res.json();
       const days = json.data?.days || [];
 
+      // Sort days by canonical order; normalise "Jumaat" → keep as-is but treat as Friday
       allDays = DAY_ORDER
         .map(d => days.find(x => x.day === d))
         .filter(Boolean);
@@ -317,8 +326,13 @@
         return;
       }
 
-      const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
-      activeDay   = allDays.find(d => d.day === today)?.day || allDays[0].day;
+      // Get today in Indonesian (API format)
+      const jsToday = new Date().toLocaleDateString('en-US', { weekday: 'long' }); // e.g. "Friday"
+      const todayID = JS_TO_API[jsToday]; // e.g. "Jumat"
+      // Try exact match first, then fallback to "Jumaat" variant
+      activeDay = allDays.find(d => d.day === todayID)?.day
+               || allDays.find(d => DAY_LABEL[d.day] === todayID)?.day
+               || allDays[0].day;
 
       renderTabs();
       renderGrid();
