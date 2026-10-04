@@ -42,7 +42,7 @@ function animeCard(a) {
         <img src="${a.poster || '/img/placeholder.svg'}" alt="${a.title}" loading="lazy"
              onerror="this.src='/img/placeholder.svg'"/>
         <span class="anime-card-badge">${a.type || 'TV'}</span>
-        ${score ? `<span class="anime-card-badge" style="left:auto;right:1rem;background:var(--color-white)">&#11088; ${score}</span>` : ''}
+        ${score ? `<span class="anime-card-badge" style="left:auto;right:1rem;background:var(--color-white)">${score}</span>` : ''}
       </div>
       <div class="anime-card-info">
         <div class="anime-card-title">${a.title}</div>
