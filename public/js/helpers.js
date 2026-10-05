@@ -52,11 +52,12 @@ function animeCard(a) {
 }
 
 function recentCard(e) {
-  const id = e.animeId || e.slug || '';
+  // animeId in recent data is actually an episode slug (e.g. "kanata-kara-episode-1")
+  const id = e.episodeId || e.animeId || e.slug || '';
   const iconPlay    = `<svg width="11" height="11" viewBox="0 0 12 12" fill="currentColor"><polygon points="2,1 11,6 2,11"/></svg>`;
   const iconClock   = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
   return `
-    <div class="episode-card" onclick="MiruApp('${id}')">
+    <div class="episode-card" onclick="goEpisode('${id}')">
       <div class="episode-card-thumb">
         <img src="${e.poster || '/img/placeholder.svg'}" alt="${e.title}" loading="lazy"
              onerror="this.src='/img/placeholder.svg'"/>
